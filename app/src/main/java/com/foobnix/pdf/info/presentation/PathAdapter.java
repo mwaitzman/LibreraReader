@@ -71,7 +71,7 @@ public class PathAdapter extends BaseAdapter {
                 @Override
                 public void onClick(View v) {
                     if (onDeleClick != null) {
-                        onDeleClick.onResultRecive(uri);
+                        onDeleClick.onResultReceive(uri);
                     }
                 }
             });

@@ -59,7 +59,7 @@ public class BookmarksAdapter2 extends AppRecycleAdapter<AppBookmark, BookmarksV
 
             @Override
             public void onClick(View v) {
-                onDeleteClickListener.onResultRecive(item);
+                onDeleteClickListener.onResultReceive(item);
             }
         });
         holder.remove.setImageResource(withPageNumber ? R.drawable.glyphicons_208_remove_2 : R.drawable.glyphicons_basic_578_share);

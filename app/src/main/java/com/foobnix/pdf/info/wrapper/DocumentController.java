@@ -17,28 +17,10 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.Toast;
-
-import com.foobnix.android.utils.Dips;
-import com.foobnix.android.utils.IntegerResponse;
-import com.foobnix.android.utils.Keyboards;
-import com.foobnix.android.utils.LOG;
-import com.foobnix.android.utils.MyMath;
-import com.foobnix.android.utils.ResultResponse;
-import com.foobnix.android.utils.Safe;
-import com.foobnix.android.utils.TxtUtils;
+import com.foobnix.android.utils.*;
 import com.foobnix.dao2.FileMeta;
-import com.foobnix.model.AppBook;
-import com.foobnix.model.AppBookmark;
-import com.foobnix.model.AppProfile;
-import com.foobnix.model.AppSP;
-import com.foobnix.model.AppState;
-import com.foobnix.pdf.info.ExtUtils;
-import com.foobnix.pdf.info.IMG;
-import com.foobnix.pdf.info.MyADSProvider;
-import com.foobnix.pdf.info.OutlineHelper;
-import com.foobnix.pdf.info.PageUrl;
-import com.foobnix.pdf.info.R;
-import com.foobnix.pdf.info.TintUtil;
+import com.foobnix.model.*;
+import com.foobnix.pdf.info.*;
 import com.foobnix.pdf.info.model.AnnotationType;
 import com.foobnix.pdf.info.model.OutlineLinkWrapper;
 import com.foobnix.pdf.info.view.AlertDialogs;
@@ -47,7 +29,6 @@ import com.foobnix.sys.ImageExtractor;
 import com.foobnix.sys.TempHolder;
 import com.foobnix.tts.TTSEngine;
 import com.foobnix.ui2.AppDB;
-
 import org.ebookdroid.common.settings.SettingsManager;
 import org.ebookdroid.common.settings.books.SharedBooks;
 import org.ebookdroid.core.codec.Annotation;
@@ -344,9 +325,9 @@ public abstract class DocumentController {
 
     public abstract void onGoToPage(int page);
 
-    public abstract void onSrollLeft();
+    public abstract void onScrollLeft();
 
-    public abstract void onSrollRight();
+    public abstract void onScrollRight();
 
     public abstract void onScrollUp();
 
@@ -366,7 +347,7 @@ public abstract class DocumentController {
 
     public abstract void onZoomInOut(int x, int y);
 
-    public abstract void onCloseActivityAdnShowInterstial();
+    public abstract void onCloseActivityAdcShowInterstitial();
 
     public abstract void onCloseActivityFinal(Runnable run);
 
@@ -376,9 +357,9 @@ public abstract class DocumentController {
 
     public abstract void onFullScreen();
 
-    public abstract int getCurentPage();
+    public abstract int getCurrentPage();
 
-    public abstract int getCurentPageFirst1();
+    public abstract int getCurrentPageFirst1();
 
     public abstract int getPageCount();
 
@@ -415,7 +396,7 @@ public abstract class DocumentController {
     }
 
     public float getPercentage() {
-        return MyMath.percent(getCurentPageFirst1(), getPageCount());
+        return MyMath.percent(getCurrentPageFirst1(), getPageCount());
     }
 
     public MyADSProvider getAdsProvider() {
@@ -470,7 +451,7 @@ public abstract class DocumentController {
         AppBook bs = SettingsManager.getBookSettings();
         if (bs != null) {
             bs.updateFromAppState();
-            bs.currentPageChanged(getCurentPageFirst1(), getPageCount());
+            bs.currentPageChanged(getCurrentPageFirst1(), getPageCount());
             handler2.removeCallbacks(saveCurrentPageRunnable);
             handler2.postDelayed(saveCurrentPageRunnable, 1000);
         }
@@ -482,7 +463,7 @@ public abstract class DocumentController {
             return;
         }
         // int page = PageUrl.fakeToReal(currentPage);
-        LOG.d("_PAGE", "saveCurrentPage", getCurentPageFirst1(), getPageCount());
+        LOG.d("_PAGE", "saveCurrentPage", getCurrentPageFirst1(), getPageCount());
         try {
             if (getPageCount() <= 0) {
                 LOG.d("_PAGE", "saveCurrentPage skip");
@@ -520,7 +501,7 @@ public abstract class DocumentController {
         try {
             if (getPageCount() != 0) {
                 AppBook bs = SettingsManager.getBookSettings(getCurrentBook().getPath());
-                if (getCurentPage() != bs.getCurrentPage(getPageCount()).viewIndex + 1) {
+                if (getCurrentPage() != bs.getCurrentPage(getPageCount()).viewIndex + 1) {
                     onGoToPage(bs.getCurrentPage(getPageCount()).viewIndex + 1);
                 }
             }
@@ -541,10 +522,10 @@ public abstract class DocumentController {
         getOutline(new ResultResponse<List<OutlineLinkWrapper>>() {
 
             @Override
-            public boolean onResultRecive(List<OutlineLinkWrapper> result) {
+            public boolean onResultReceive(List<OutlineLinkWrapper> result) {
                 outline = result;
                 if (resultTop != null) {
-                    resultTop.onResultRecive(result);
+                    resultTop.onResultReceive(result);
                 }
                 return false;
             }

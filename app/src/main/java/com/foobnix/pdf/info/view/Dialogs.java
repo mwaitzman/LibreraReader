@@ -10,42 +10,15 @@ import android.graphics.Color;
 import android.os.Handler;
 import android.text.InputType;
 import android.text.TextUtils;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.View;
+import android.view.*;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
-import android.view.WindowManager;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
+import android.widget.*;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.EditText;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.ScrollView;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import androidx.fragment.app.FragmentActivity;
-
 import com.buzzingandroid.ui.HSVColorPickerDialog;
 import com.buzzingandroid.ui.HSVColorPickerDialog.OnColorSelectedListener;
-import com.foobnix.android.utils.BaseItemLayoutAdapter;
-import com.foobnix.android.utils.Dips;
-import com.foobnix.android.utils.IO;
-import com.foobnix.android.utils.IntegerResponse;
-import com.foobnix.android.utils.Keyboards;
-import com.foobnix.android.utils.LOG;
-import com.foobnix.android.utils.ResultResponse;
-import com.foobnix.android.utils.StringDB;
-import com.foobnix.android.utils.TxtUtils;
-import com.foobnix.android.utils.UI;
-import com.foobnix.android.utils.Vibro;
-import com.foobnix.android.utils.Views;
-import com.foobnix.android.utils.WebViewUtils;
+import com.foobnix.android.utils.*;
 import com.foobnix.dao2.FileMeta;
 import com.foobnix.drive.GFile;
 import com.foobnix.model.AppProfile;
@@ -63,20 +36,12 @@ import com.foobnix.sys.TempHolder;
 import com.foobnix.ui2.AppDB;
 import com.foobnix.ui2.AppDB.SEARCH_IN;
 import com.jmedeisis.draglinearlayout.DragLinearLayout;
-
 import org.librera.JSONException;
 import org.librera.LinkedJSONObject;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Pattern;
 
@@ -542,7 +507,7 @@ public class Dialogs {
         WebViewHepler.getBitmap(path, new ResultResponse<Bitmap>() {
 
             @Override
-            public boolean onResultRecive(Bitmap result) {
+            public boolean onResultReceive(Bitmap result) {
                 imageView.setImageBitmap(result);
                 return false;
             }
@@ -740,13 +705,13 @@ public class Dialogs {
         builder.setPositiveButton(R.string.apply, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                onresult.onResultRecive(input.getText().toString());
+                onresult.onResultReceive(input.getText().toString());
             }
         });
         builder.setNeutralButton(R.string.add, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                onresult.onResultRecive(input.getText().toString());
+                onresult.onResultReceive(input.getText().toString());
             }
         });
         builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -803,7 +768,7 @@ public class Dialogs {
         builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                onresult.onResultRecive(input.getText().toString());
+                onresult.onResultReceive(input.getText().toString());
             }
         });
 
@@ -844,7 +809,7 @@ public class Dialogs {
             @Override
             public void onClick(final DialogInterface dialog, final int id) {
                 try {
-                    TempHolder.get().pageDelta = Integer.parseInt(edit.getText().toString()) - controller.getCurentPageFirst1();
+                    TempHolder.get().pageDelta = Integer.parseInt(edit.getText().toString()) - controller.getCurrentPageFirst1();
                 } catch (Exception e) {
                     TempHolder.get().pageDelta = 0;
                 }

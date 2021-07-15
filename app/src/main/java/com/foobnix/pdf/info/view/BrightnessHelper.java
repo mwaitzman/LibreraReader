@@ -17,19 +17,12 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
-
 import androidx.core.graphics.ColorUtils;
-
 import com.foobnix.StringResponse;
-import com.foobnix.android.utils.Dips;
-import com.foobnix.android.utils.IntegerResponse;
-import com.foobnix.android.utils.Keyboards;
-import com.foobnix.android.utils.LOG;
-import com.foobnix.android.utils.TxtUtils;
+import com.foobnix.android.utils.*;
 import com.foobnix.model.AppState;
 import com.foobnix.pdf.info.R;
 import com.foobnix.pdf.search.activity.msg.MessegeBrightness;
-
 import org.greenrobot.eventbus.EventBus;
 
 
@@ -137,7 +130,7 @@ public class BrightnessHelper {
             textView.setText(textView.getContext().getString(R.string.system_brightness));
 
         } else if (value < 0) {
-            isEnableBlueFilter (true);
+            isEnableBlueFilter(true);
             blueLightAlpha(Math.abs(value));
             appBrightness(0);
 

@@ -3,7 +3,6 @@ package com.foobnix.pdf.info;
 import android.view.MenuItem;
 import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.View;
-
 import com.foobnix.android.utils.Dips;
 import com.foobnix.android.utils.LOG;
 import com.foobnix.android.utils.TxtUtils;
@@ -64,7 +63,7 @@ public class OutlineHelper {
         }
 
         int max = dc.getPageCount();
-        String textPage = TxtUtils.deltaPage(dc.getCurentPageFirst1(), max);
+        String textPage = TxtUtils.deltaPage(dc.getCurrentPageFirst1(), max);
         String textMax = TxtUtils.deltaPageMax(max);
 
         if (AppState.get().isRTL) {
@@ -76,7 +75,7 @@ public class OutlineHelper {
         }
 
         if (AppState.get().chapterFormat == AppState.CHAPTER_FORMAT_1) {
-            String text = TxtUtils.getProgressPercent(dc.getCurentPageFirst1(), max) + SP + TxtUtils.deltaPage(dc.getCurentPageFirst1()) + DV + textMax;
+            String text = TxtUtils.getProgressPercent(dc.getCurrentPageFirst1(), max) + SP + TxtUtils.deltaPage(dc.getCurrentPageFirst1()) + DV + textMax;
 
             int leftPages = getLeftPages(dc);
             text += SP + "(" + leftPages + ")" + (!compact && leftPages < 10 ? "  " : "");
@@ -95,12 +94,12 @@ public class OutlineHelper {
                 int current = currentChapter.targetPage;
                 int last = (nextChapter == null ? dc.getPageCount() + 1 : nextChapter.targetPage);
 
-                if (current > dc.getCurentPageFirst1()) {
+                if (current > dc.getCurrentPageFirst1()) {
                     last = current;
                     current = 1;
                 }
 
-                int pageRel = dc.getCurentPageFirst1() + 1 - current;
+                int pageRel = dc.getCurrentPageFirst1() + 1 - current;
 
                 int totalChapter = Math.max(1, last - current);
 
@@ -124,7 +123,7 @@ public class OutlineHelper {
 
     public static int getLeftPages(DocumentController dc) {
         int maxPages = dc.getPageCount();
-        int currentPage = dc.getCurentPageFirst1();
+        int currentPage = dc.getCurrentPageFirst1();
         List<OutlineLinkWrapper> dividers = dc.getCurrentOutline();
         if (TxtUtils.isListEmpty(dividers)) {
             return dc.getPageCount();
@@ -187,7 +186,7 @@ public class OutlineHelper {
     public static int getRootItemByPageNumber(DocumentController dc) {
         try {
             List<OutlineLinkWrapper> outline = dc.getCurrentOutline();
-            int pageNumber = dc.getCurentPageFirst1();
+            int pageNumber = dc.getCurrentPageFirst1();
             for (int i = 0; i < outline.size(); i++) {
                 OutlineLinkWrapper item = outline.get(i);
 

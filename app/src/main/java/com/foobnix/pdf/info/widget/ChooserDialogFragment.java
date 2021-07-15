@@ -8,10 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.FrameLayout.LayoutParams;
-
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentActivity;
-
 import com.foobnix.android.utils.Keyboards;
 import com.foobnix.android.utils.ResultResponse;
 import com.foobnix.android.utils.ResultResponse2;
@@ -84,14 +82,14 @@ public class ChooserDialogFragment extends DialogFragment {
         fr.setOnCloseAction(new ResultResponse<String>() {
 
             @Override
-            public boolean onResultRecive(String result) {
+            public boolean onResultReceive(String result) {
                 getDialog().dismiss();
                 return false;
             }
         });
         fr.setOnPositiveAction(new ResultResponse<String>() {
             @Override
-            public boolean onResultRecive(String result) {
+            public boolean onResultReceive(String result) {
                 if (onSelectListener != null && result != null && getDialog() != null) {
                     onSelectListener.onResultRecive(result, getDialog());
                 }
@@ -102,7 +100,9 @@ public class ChooserDialogFragment extends DialogFragment {
         getDialog().setTitle(R.string.choose_);
 
         return frame;
-    };
+    }
+
+    ;
 
     @Override
     public void onResume() {

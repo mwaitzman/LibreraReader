@@ -9,10 +9,8 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.core.util.Pair;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.foobnix.android.utils.LOG;
 import com.foobnix.android.utils.ResultResponse;
 import com.foobnix.android.utils.TxtUtils;
@@ -98,21 +96,19 @@ public class RecentFragment2 extends UIFragment<FileMeta> {
     ResultResponse<FileMeta> onDeleteRecentClick = new ResultResponse<FileMeta>() {
 
         @Override
-        public boolean onResultRecive(FileMeta result) {
+        public boolean onResultReceive(FileMeta result) {
             result.setIsRecent(false);
             AppDB.get().update(result);
 
-            if(result.getPath().startsWith(CacheZipUtils.CACHE_RECENT.getPath())){
+            if (result.getPath().startsWith(CacheZipUtils.CACHE_RECENT.getPath())) {
                 new File(result.getPath()).delete();
                 LOG.d("Delete cache recent file", result.getPath());
             }
 
 
-
             AppData.get().removeRecent(result);
 
             populate();
-
 
 
             return false;

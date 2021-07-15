@@ -24,10 +24,8 @@ import android.speech.tts.TextToSpeech.OnUtteranceCompletedListener;
 import android.speech.tts.UtteranceProgressListener;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.view.KeyEvent;
-
 import androidx.core.app.NotificationCompat;
 import androidx.media.session.MediaButtonReceiver;
-
 import com.foobnix.android.utils.Apps;
 import com.foobnix.android.utils.LOG;
 import com.foobnix.android.utils.TxtUtils;
@@ -41,7 +39,6 @@ import com.foobnix.pdf.info.model.BookCSS;
 import com.foobnix.pdf.info.wrapper.DocumentController;
 import com.foobnix.sys.ImageExtractor;
 import com.foobnix.sys.TempHolder;
-
 import org.ebookdroid.LibreraApp;
 import org.ebookdroid.common.settings.books.SharedBooks;
 import org.ebookdroid.core.codec.CodecDocument;
@@ -148,7 +145,7 @@ public class TTSService extends Service {
             }
         } else {
             if (controller != null) {
-                TTSService.playBookPage(controller.getCurentPageFirst1() - 1, controller.getCurrentBook().getPath(), "", controller.getBookWidth(), controller.getBookHeight(), BookCSS.get().fontSizeSp, controller.getTitle());
+                TTSService.playBookPage(controller.getCurrentPageFirst1() - 1, controller.getCurrentBook().getPath(), "", controller.getBookWidth(), controller.getBookHeight(), BookCSS.get().fontSizeSp, controller.getTitle());
             }
         }
     }

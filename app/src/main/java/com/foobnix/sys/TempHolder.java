@@ -10,7 +10,7 @@ public class TempHolder {
 
     public static TempHolder inst = new TempHolder();
     public static int listHash = 0;
-    public static volatile boolean isSeaching = false;
+    public static volatile boolean isSearching = false;
     public static volatile boolean isConverting = false;
     public static volatile boolean isRecordTTS = false;
 

@@ -59,7 +59,7 @@ public abstract class AppRecycleAdapter<K, T extends RecyclerView.ViewHolder> ex
             @Override
             public void onClick(View v) {
                 if (onItemClickListener != null) {
-                    onItemClickListener.onResultRecive(item);
+                    onItemClickListener.onResultReceive(item);
                 }
             }
         });
@@ -68,7 +68,7 @@ public abstract class AppRecycleAdapter<K, T extends RecyclerView.ViewHolder> ex
             @Override
             public boolean onLongClick(View v) {
                 if (onItemLongClickListener != null) {
-                    onItemLongClickListener.onResultRecive(item);
+                    onItemLongClickListener.onResultReceive(item);
                 }
                 return true;
             }

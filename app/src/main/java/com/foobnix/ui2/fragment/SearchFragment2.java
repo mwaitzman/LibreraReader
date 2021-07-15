@@ -1,12 +1,8 @@
 package com.foobnix.ui2.fragment;
 
 import android.app.AlertDialog;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.DialogInterface;
+import android.content.*;
 import android.content.DialogInterface.OnDismissListener;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Environment;
@@ -21,14 +17,7 @@ import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
-
+import android.widget.*;
 import androidx.core.graphics.ColorUtils;
 import androidx.core.util.Pair;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -36,15 +25,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.RecyclerView.OnScrollListener;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
-import com.foobnix.android.utils.Apps;
-import com.foobnix.android.utils.BaseItemLayoutAdapter;
-import com.foobnix.android.utils.Dips;
-import com.foobnix.android.utils.Keyboards;
-import com.foobnix.android.utils.LOG;
-import com.foobnix.android.utils.ResultResponse;
-import com.foobnix.android.utils.StringDB;
-import com.foobnix.android.utils.TxtUtils;
+import com.foobnix.android.utils.*;
 import com.foobnix.dao2.FileMeta;
 import com.foobnix.model.AppState;
 import com.foobnix.pdf.info.IMG;
@@ -63,20 +44,10 @@ import com.foobnix.ui2.AppDB.SORT_BY;
 import com.foobnix.ui2.BooksService;
 import com.foobnix.ui2.adapter.AuthorsAdapter2;
 import com.foobnix.ui2.adapter.FileMetaAdapter;
-
 import org.ebookdroid.LibreraApp;
 import org.greenrobot.eventbus.Subscribe;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.EmptyStackException;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-import java.util.Set;
-import java.util.Stack;
+import java.util.*;
 
 public class SearchFragment2 extends UIFragment<FileMeta> {
 
@@ -199,7 +170,7 @@ public class SearchFragment2 extends UIFragment<FileMeta> {
     ResultResponse<String> onAuthorSeriesClick = new ResultResponse<String>() {
 
         @Override
-        public boolean onResultRecive(String result) {
+        public boolean onResultReceive(String result) {
             rememberPos = ((LinearLayoutManager) recyclerView.getLayoutManager()).findLastVisibleItemPosition();
             onMetaInfoClick(SEARCH_IN.getByMode(AppState.get().libraryMode), result);
             return false;
@@ -208,7 +179,7 @@ public class SearchFragment2 extends UIFragment<FileMeta> {
     ResultResponse<String> onAuthorClick = new ResultResponse<String>() {
 
         @Override
-        public boolean onResultRecive(String result) {
+        public boolean onResultReceive(String result) {
             onMetaInfoClick(SEARCH_IN.AUTHOR, result);
             return false;
         }
@@ -216,7 +187,7 @@ public class SearchFragment2 extends UIFragment<FileMeta> {
     ResultResponse<String> onSeriesClick = new ResultResponse<String>() {
 
         @Override
-        public boolean onResultRecive(String result) {
+        public boolean onResultReceive(String result) {
             if (result.contains(NO_SERIES)) {
                 onMetaInfoClick(SEARCH_IN.getByPrefix(searchEditText.getText().toString()), result);
             } else {
@@ -474,7 +445,7 @@ public class SearchFragment2 extends UIFragment<FileMeta> {
         menu2.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(view.getRootView().findViewById(R.id.imageMenu1)!=null) {
+                if (view.getRootView().findViewById(R.id.imageMenu1) != null) {
                     view.getRootView().findViewById(R.id.imageMenu1).performClick();
                 }
             }

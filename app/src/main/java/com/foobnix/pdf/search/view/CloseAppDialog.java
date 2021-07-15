@@ -146,7 +146,7 @@ public class CloseAppDialog {
                 int i = 0;
                 if (which == i++) {
 
-                    c.onCloseActivityAdnShowInterstial();
+                    c.onCloseActivityAdcShowInterstitial();
 
                 } else if (which == i++) {
                     c.onCloseActivityFinal(new Runnable() {

@@ -11,19 +11,8 @@ import android.os.Build;
 import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import com.foobnix.android.utils.BaseItemLayoutAdapter;
-import com.foobnix.android.utils.IO;
-import com.foobnix.android.utils.Keyboards;
-import com.foobnix.android.utils.LOG;
-import com.foobnix.android.utils.ResultResponse;
-import com.foobnix.android.utils.TxtUtils;
+import android.widget.*;
+import com.foobnix.android.utils.*;
 import com.foobnix.drive.GFile;
 import com.foobnix.pdf.info.Android6;
 import com.foobnix.pdf.info.ExtUtils;
@@ -98,9 +87,8 @@ public class AppProfile {
             return;
         }
         profile = getCurrent(c);
-        AppDB.get().open(c, "db-"+AppSP.get().rootPath.hashCode()+"-"+profile);
+        AppDB.get().open(c, "db-" + AppSP.get().rootPath.hashCode() + "-" + profile);
         LOG.d("AppProfile init", profile);
-
 
 
         SYNC_FOLDER_ROOT = new File(AppSP.get().rootPath);
@@ -303,7 +291,7 @@ public class AppProfile {
 
                                 deleteProfiles(a, tagName, new ResultResponse<Boolean>() {
                                     @Override
-                                    public boolean onResultRecive(Boolean result) {
+                                    public boolean onResultReceive(Boolean result) {
                                         if (result) {
                                             profiles.clear();
                                             profiles.addAll(getAllProfiles());
@@ -343,7 +331,7 @@ public class AppProfile {
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                onclick.onResultRecive(profiles.get(position));
+                onclick.onResultReceive(profiles.get(position));
             }
         });
 

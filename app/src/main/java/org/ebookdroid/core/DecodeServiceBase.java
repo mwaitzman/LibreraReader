@@ -6,7 +6,6 @@ import android.graphics.PointF;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.util.Pair;
-
 import com.foobnix.android.utils.LOG;
 import com.foobnix.android.utils.ResultResponse;
 import com.foobnix.android.utils.Safe;
@@ -16,19 +15,11 @@ import com.foobnix.pdf.info.model.BookCSS;
 import com.foobnix.sys.Colors;
 import com.foobnix.sys.ImageExtractor;
 import com.foobnix.sys.TempHolder;
-
 import org.ebookdroid.BookType;
 import org.ebookdroid.common.bitmaps.BitmapManager;
 import org.ebookdroid.common.bitmaps.BitmapRef;
 import org.ebookdroid.common.settings.CoreSettings;
-import org.ebookdroid.core.codec.Annotation;
-import org.ebookdroid.core.codec.CodecContext;
-import org.ebookdroid.core.codec.CodecDocument;
-import org.ebookdroid.core.codec.CodecPage;
-import org.ebookdroid.core.codec.CodecPageHolder;
-import org.ebookdroid.core.codec.CodecPageInfo;
-import org.ebookdroid.core.codec.OutlineLink;
-import org.ebookdroid.core.codec.PageLink;
+import org.ebookdroid.core.codec.*;
 import org.ebookdroid.core.crop.PageCropper;
 import org.ebookdroid.droids.mupdf.codec.TextWord;
 import org.ebookdroid.ui.viewer.IView;
@@ -37,14 +28,7 @@ import org.emdev.utils.CompareUtils;
 import org.emdev.utils.LengthUtils;
 import org.emdev.utils.MathUtils;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.IdentityHashMap;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
@@ -200,7 +184,7 @@ public class DecodeServiceBase implements DecodeService {
             public void run() {
                 codecDocument.deleteAnnotation(pageHandle, index);
                 pages.clear();
-                response.onResultRecive(getPage(page).getAnnotations());
+                response.onResultReceive(getPage(page).getAnnotations());
             }
         });
 
@@ -219,7 +203,7 @@ public class DecodeServiceBase implements DecodeService {
                         if (!(data instanceof Page)) return;
                         Page page = (Page) data;
                         if (page.selectedText == null || page.selectedText.size() <= 0) {
-                            response.onResultRecive(page.index.docIndex);
+                            response.onResultReceive(page.index.docIndex);
                             LOG.d("Find on page", page.index.docIndex, text);
                         }
                         if (page.selectedText == null) page.selectedText = new ArrayList<>();
@@ -228,18 +212,18 @@ public class DecodeServiceBase implements DecodeService {
                 });
                 for (Page page : pages) {
 
-                    if (!TempHolder.isSeaching) {
-                        response.onResultRecive(Integer.MAX_VALUE);
+                    if (!TempHolder.isSearching) {
+                        response.onResultReceive(Integer.MAX_VALUE);
                         finish.run();
                         return;
                     }
 
                     if (page.index.docIndex > 1) {
-                        response.onResultRecive(page.index.docIndex * -1);
+                        response.onResultReceive(page.index.docIndex * -1);
                     }
 
                     if (isRecycled.get()) {
-                        TempHolder.isSeaching = false;
+                        TempHolder.isSearching = false;
                         return;
                     }
                     if (page.texts == null) {
@@ -260,14 +244,14 @@ public class DecodeServiceBase implements DecodeService {
                     List<TextWord> findText = page.findText(text);
                     if (findText != null && !findText.isEmpty()) {
                         page.selectedText = findText;
-                        response.onResultRecive(page.index.docIndex);
+                        response.onResultReceive(page.index.docIndex);
                         LOG.d("Find on page1", page.index.docIndex, text);
                     }
                     pageSearcher.searchAtPage(page);
                 }
-                response.onResultRecive(-1);
+                response.onResultReceive(-1);
                 finish.run();
-                TempHolder.isSeaching = false;
+                TempHolder.isSearching = false;
             }
 
             ;
@@ -284,7 +268,7 @@ public class DecodeServiceBase implements DecodeService {
             public void run() {
                 getPage(page).addMarkupAnnotation(points, type, Colors.toMupdfColor(color));
                 pages.clear();
-                callback.onResultRecive(getPage(page).getAnnotations());
+                callback.onResultReceive(getPage(page).getAnnotations());
             }
         });
 
@@ -333,7 +317,7 @@ public class DecodeServiceBase implements DecodeService {
             }
 
 
-            if (codecDocument.getBookType()== BookType.PDF && task.node.page.annotations == null) {
+            if (codecDocument.getBookType() == BookType.PDF && task.node.page.annotations == null) {
                 task.node.page.annotations = vuPage.getAnnotations();
             }
 
@@ -488,10 +472,10 @@ public class DecodeServiceBase implements DecodeService {
                 @Override
                 public void run() {
                     if (codecDocument == null) {
-                        response.onResultRecive(null);
+                        response.onResultReceive(null);
                         return;
                     }
-                    response.onResultRecive(codecDocument.getOutline());
+                    response.onResultReceive(codecDocument.getOutline());
                 }
             }.start();
 
@@ -502,10 +486,10 @@ public class DecodeServiceBase implements DecodeService {
             @Override
             public void run() {
                 if (codecDocument == null) {
-                    response.onResultRecive(null);
+                    response.onResultReceive(null);
                     return;
                 }
-                response.onResultRecive(codecDocument.getOutline());
+                response.onResultReceive(codecDocument.getOutline());
             }
         });
     }
@@ -841,7 +825,7 @@ public class DecodeServiceBase implements DecodeService {
                 updateAnnotation(docIndex, Colors.toMupdfColor(color), path, width, alpha);
                 pages.clear();
 
-                onResult.onResultRecive(new Pair<Integer, List<Annotation>>(docIndex, getPage(docIndex).getAnnotations()));
+                onResult.onResultReceive(new Pair<Integer, List<Annotation>>(docIndex, getPage(docIndex).getAnnotations()));
             }
         }
     }

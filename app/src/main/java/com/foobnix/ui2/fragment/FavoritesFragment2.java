@@ -8,11 +8,9 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-
 import androidx.core.util.Pair;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.foobnix.android.utils.ResultResponse;
 import com.foobnix.android.utils.TxtUtils;
 import com.foobnix.dao2.FileMeta;
@@ -30,7 +28,6 @@ import com.foobnix.pdf.search.activity.msg.NotifyAllFragments;
 import com.foobnix.ui2.AppDB;
 import com.foobnix.ui2.AppDB.SEARCH_IN;
 import com.foobnix.ui2.adapter.FileMetaAdapter;
-
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
@@ -135,7 +132,7 @@ public class FavoritesFragment2 extends UIFragment<FileMeta> {
         recentAdapter.setOnGridOrList(new ResultResponse<ImageView>() {
 
             @Override
-            public boolean onResultRecive(ImageView result) {
+            public boolean onResultReceive(ImageView result) {
                 popupMenu(result);
                 return false;
             }

@@ -5,7 +5,6 @@ import android.graphics.Rect;
 import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.MotionEvent;
 import android.widget.Toast;
-
 import com.foobnix.android.utils.Dips;
 import com.foobnix.android.utils.LOG;
 import com.foobnix.android.utils.TxtUtils;
@@ -18,7 +17,6 @@ import com.foobnix.pdf.info.model.AnnotationType;
 import com.foobnix.pdf.info.view.BrightnessHelper;
 import com.foobnix.pdf.info.wrapper.DocumentController;
 import com.foobnix.pdf.search.activity.msg.MessagePageXY;
-
 import org.ebookdroid.BookType;
 import org.ebookdroid.LibreraApp;
 import org.ebookdroid.common.settings.SettingsManager;
@@ -196,7 +194,7 @@ public class AdvGuestureDetector extends SimpleOnGestureListener implements IMul
             }
 
             if (isTextFormat) {
-                if (!TempHolder.isSeaching) {
+                if (!TempHolder.isSearching) {
                     String text = avc.processLongTap(true, e, e, false);
                     if (TxtUtils.isFooterNote(text)) {
                         AppState.get().selectedText = text;
@@ -317,7 +315,7 @@ public class AdvGuestureDetector extends SimpleOnGestureListener implements IMul
             d1 = d2 = 0;
             LOG.d("onScroll yes", avc.getView().getScrollY(), avc.getView().getHeight(), avc.getScrollLimits().bottom);
 
-       }
+        }
 
 
         return true;

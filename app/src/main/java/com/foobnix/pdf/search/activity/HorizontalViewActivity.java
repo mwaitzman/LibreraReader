@@ -11,105 +11,46 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
-import android.os.Build;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Parcelable;
+import android.os.*;
 import android.text.InputType;
 import android.util.AttributeSet;
-import android.view.KeyEvent;
-import android.view.MenuItem;
+import android.view.*;
 import android.view.MenuItem.OnMenuItemClickListener;
-import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
-import android.view.ViewGroup;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
-import android.view.Window;
-import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.TranslateAnimation;
-import android.widget.EditText;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.SeekBar;
-import android.widget.TextView;
-import android.widget.Toast;
-
+import android.widget.*;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager.widget.ViewPager.OnPageChangeListener;
-
-import com.foobnix.android.utils.Apps;
-import com.foobnix.android.utils.Dips;
-import com.foobnix.android.utils.Keyboards;
-import com.foobnix.android.utils.LOG;
-import com.foobnix.android.utils.ResultResponse;
-import com.foobnix.android.utils.TxtUtils;
-import com.foobnix.android.utils.Vibro;
-import com.foobnix.android.utils.Views;
+import com.foobnix.android.utils.*;
 import com.foobnix.drive.GFile;
 import com.foobnix.ext.CacheZipUtils;
 import com.foobnix.model.AppProfile;
 import com.foobnix.model.AppSP;
 import com.foobnix.model.AppState;
 import com.foobnix.pdf.CopyAsyncTask;
-import com.foobnix.pdf.info.ADS;
-import com.foobnix.pdf.info.Android6;
-import com.foobnix.pdf.info.AppsConfig;
-import com.foobnix.pdf.info.BookmarksData;
-import com.foobnix.pdf.info.DictsHelper;
-import com.foobnix.pdf.info.ExtUtils;
-import com.foobnix.pdf.info.IMG;
-import com.foobnix.pdf.info.OutlineHelper;
+import com.foobnix.pdf.info.*;
 import com.foobnix.pdf.info.OutlineHelper.Info;
-import com.foobnix.pdf.info.PasswordDialog;
-import com.foobnix.pdf.info.R;
-import com.foobnix.pdf.info.TintUtil;
-import com.foobnix.pdf.info.UiSystemUtils;
 import com.foobnix.pdf.info.model.OutlineLinkWrapper;
-import com.foobnix.pdf.info.view.AlertDialogs;
-import com.foobnix.pdf.info.view.AnchorHelper;
-import com.foobnix.pdf.info.view.BookmarkPanel;
-import com.foobnix.pdf.info.view.BrightnessHelper;
-import com.foobnix.pdf.info.view.Dialogs;
-import com.foobnix.pdf.info.view.DialogsPlaylist;
-import com.foobnix.pdf.info.view.DragingDialogs;
-import com.foobnix.pdf.info.view.HorizontallSeekTouchEventListener;
-import com.foobnix.pdf.info.view.HypenPanelHelper;
-import com.foobnix.pdf.info.view.MyPopupMenu;
-import com.foobnix.pdf.info.view.ProgressDraw;
-import com.foobnix.pdf.info.view.UnderlineImageView;
+import com.foobnix.pdf.info.view.*;
 import com.foobnix.pdf.info.widget.DraggbleTouchListener;
 import com.foobnix.pdf.info.widget.ShareDialog;
 import com.foobnix.pdf.info.wrapper.DocumentController;
 import com.foobnix.pdf.info.wrapper.MagicHelper;
-import com.foobnix.pdf.search.activity.msg.FlippingStart;
-import com.foobnix.pdf.search.activity.msg.FlippingStop;
-import com.foobnix.pdf.search.activity.msg.InvalidateMessage;
-import com.foobnix.pdf.search.activity.msg.MessageAutoFit;
-import com.foobnix.pdf.search.activity.msg.MessageEvent;
-import com.foobnix.pdf.search.activity.msg.MessagePageXY;
-import com.foobnix.pdf.search.activity.msg.MessegeBrightness;
+import com.foobnix.pdf.search.activity.msg.*;
 import com.foobnix.pdf.search.view.CloseAppDialog;
 import com.foobnix.pdf.search.view.VerticalViewPager;
 import com.foobnix.sys.ClickUtils;
 import com.foobnix.sys.TempHolder;
-import com.foobnix.tts.MessagePageNumber;
-import com.foobnix.tts.TTSControlsView;
-import com.foobnix.tts.TTSEngine;
-import com.foobnix.tts.TTSNotification;
-import com.foobnix.tts.TTSService;
-import com.foobnix.tts.TtsStatus;
+import com.foobnix.tts.*;
 import com.foobnix.ui2.AdsFragmentActivity;
 import com.foobnix.ui2.AppDB;
 import com.foobnix.ui2.MainTabs2;
 import com.foobnix.ui2.MyContextWrapper;
-
 import org.ebookdroid.common.settings.SettingsManager;
 import org.ebookdroid.common.settings.books.SharedBooks;
 import org.ebookdroid.droids.mupdf.codec.exceptions.MuPdfPasswordException;
@@ -138,7 +79,7 @@ public class HorizontalViewActivity extends AdsFragmentActivity {
     Handler flippingHandler = new Handler(Looper.getMainLooper());
     Handler handlerTimer = new Handler(Looper.getMainLooper());
     CopyAsyncTask loadinAsyncTask;
-    Dialog rotatoinDialog;
+    Dialog rotationDialog;
     volatile Boolean isInitPosistion = null;
     volatile int isInitOrientation;
     ProgressDraw progressDraw;
@@ -178,7 +119,7 @@ public class HorizontalViewActivity extends AdsFragmentActivity {
             LOG.d("Close App");
             if (dc != null) {
                 dc.saveCurrentPageAsync();
-                dc.onCloseActivityAdnShowInterstial();
+                dc.onCloseActivityAdcShowInterstitial();
                 dc.closeActivity();
             } else {
                 finish();
@@ -195,7 +136,7 @@ public class HorizontalViewActivity extends AdsFragmentActivity {
             LOG.d("flippingRunnable");
             if (flippingTimer >= AppState.get().flippingInterval) {
                 flippingTimer = 0;
-                if (dc.getCurentPage() == dc.getPageCount() - 1) {
+                if (dc.getCurrentPage() == dc.getPageCount() - 1) {
                     if (AppState.get().isLoopAutoplay) {
                         dc.onGoToPage(1);
                     } else {
@@ -359,7 +300,7 @@ public class HorizontalViewActivity extends AdsFragmentActivity {
             EventBus.getDefault().post(new MessagePageXY(MessagePageXY.TYPE_HIDE));
 
             if (!TTSEngine.get().isPlaying()) {
-                Apps.accessibilityText(HorizontalViewActivity.this, getString(R.string.m_current_page) + " " + dc.getCurentPageFirst1());
+                Apps.accessibilityText(HorizontalViewActivity.this, getString(R.string.m_current_page) + " " + dc.getCurrentPageFirst1());
             }
 
 
@@ -386,7 +327,7 @@ public class HorizontalViewActivity extends AdsFragmentActivity {
             createAdapter();
 
             loadUI();
-            dc.onGoToPage(dc.getCurentPage() + 1);
+            dc.onGoToPage(dc.getCurrentPage() + 1);
         }
     };
     private volatile boolean isMyKey = false;
@@ -591,7 +532,7 @@ public class HorizontalViewActivity extends AdsFragmentActivity {
 
             @Override
             public boolean onLongClick(View v) {
-                Dialogs.showDeltaPage(anchor, dc, dc.getCurentPageFirst1(), onRefresh);
+                Dialogs.showDeltaPage(anchor, dc, dc.getCurrentPageFirst1(), onRefresh);
                 return true;
             }
         });
@@ -599,7 +540,7 @@ public class HorizontalViewActivity extends AdsFragmentActivity {
 
             @Override
             public boolean onLongClick(View v) {
-                Dialogs.showDeltaPage(anchor, dc, dc.getCurentPageFirst1(), onRefresh);
+                Dialogs.showDeltaPage(anchor, dc, dc.getCurrentPageFirst1(), onRefresh);
                 return true;
             }
         });
@@ -981,7 +922,7 @@ public class HorizontalViewActivity extends AdsFragmentActivity {
                             dc.getActivity().finish();
                         }
                     }
-                }, dc.getCurentPage(), dc, new Runnable() {
+                }, dc.getCurrentPage(), dc, new Runnable() {
 
                     @Override
                     public void run() {
@@ -1257,11 +1198,11 @@ public class HorizontalViewActivity extends AdsFragmentActivity {
                     if (AppState.get().isEnableAccessibility) {
                         AppState.get().isEditMode = true;
                     }
-                    int pageFromUri = dc.getCurentPage();
+                    int pageFromUri = dc.getCurrentPage();
                     updateUI(pageFromUri);
                     hideShow();
 
-                    Apps.accessibilityText(HorizontalViewActivity.this, getString(R.string.book_is_open), getString(R.string.m_current_page), " " + dc.getCurentPageFirst1());
+                    Apps.accessibilityText(HorizontalViewActivity.this, getString(R.string.book_is_open), getString(R.string.m_current_page), " " + dc.getCurrentPageFirst1());
 
 
                     EventBus.getDefault().post(new MessageAutoFit(pageFromUri));
@@ -1691,7 +1632,7 @@ public class HorizontalViewActivity extends AdsFragmentActivity {
     protected void onPause() {
         super.onPause();
         AppProfile.save(this);
-        TempHolder.isSeaching = false;
+        TempHolder.isSearching = false;
         TempHolder.isActiveSpeedRead.set(false);
         //dc.saveCurrentPageAsync();
         handler.postDelayed(closeRunnable, AppState.APP_CLOSE_AUTOMATIC);
@@ -1710,7 +1651,7 @@ public class HorizontalViewActivity extends AdsFragmentActivity {
             isAnimate = false;
         }
         lastClick = System.currentTimeMillis();
-        viewPager.setCurrentItem(dc.getCurentPage() + 1, isAnimate);
+        viewPager.setCurrentItem(dc.getCurrentPage() + 1, isAnimate);
         dc.checkReadingTimer();
 
     }
@@ -1723,7 +1664,7 @@ public class HorizontalViewActivity extends AdsFragmentActivity {
             isAnimate = false;
         }
         lastClick = System.currentTimeMillis();
-        viewPager.setCurrentItem(dc.getCurentPage() - 1, isAnimate);
+        viewPager.setCurrentItem(dc.getCurrentPage() - 1, isAnimate);
         dc.checkReadingTimer();
 
     }
@@ -1818,7 +1759,7 @@ public class HorizontalViewActivity extends AdsFragmentActivity {
             if (ev.getPage() == -1 && TxtUtils.isNotEmpty(ev.getBody())) {
                 AlertDialogs.openUrl(this, ev.getBody());
             } else {
-                dc.getLinkHistory().add(dc.getCurentPage() + 1);
+                dc.getLinkHistory().add(dc.getCurrentPage() + 1);
                 dc.onGoToPage(ev.getPage() + 1);
                 showHideHistory();
             }
@@ -1907,7 +1848,7 @@ public class HorizontalViewActivity extends AdsFragmentActivity {
 
         if (dc.floatingBookmark != null) {
             dc.floatingBookmark.p = dc.getPercentage();
-            floatingBookmarkTextView.setText("{" + dc.getCurentPageFirst1() + "}");
+            floatingBookmarkTextView.setText("{" + dc.getCurrentPageFirst1() + "}");
             floatingBookmarkTextView.setVisibility(View.VISIBLE);
 
             BookmarksData.get().add(dc.floatingBookmark);
@@ -1924,10 +1865,10 @@ public class HorizontalViewActivity extends AdsFragmentActivity {
         createAdapter();
 
         viewPager.addOnPageChangeListener(onViewPagerChangeListener);
-        viewPager.setCurrentItem(dc.getCurentPage(), false);
+        viewPager.setCurrentItem(dc.getCurrentPage(), false);
 
         seekBar.setMax(dc.getPageCount() - 1);
-        seekBar.setProgress(dc.getCurentPage());
+        seekBar.setProgress(dc.getCurrentPage());
 
         bottomIndicators.setOnTouchListener(new HorizontallSeekTouchEventListener(onSeek, dc.getPageCount(), false));
         progressDraw.setOnTouchListener(new HorizontallSeekTouchEventListener(onSeek, dc.getPageCount(), false));
@@ -1950,14 +1891,14 @@ public class HorizontalViewActivity extends AdsFragmentActivity {
 
         tinUI();
 
-        onViewPagerChangeListener.onPageSelected(dc.getCurentPage());
+        onViewPagerChangeListener.onPageSelected(dc.getCurrentPage());
 
         progressDraw.updatePageCount(dc.getPageCount());
 
         dc.getOutline(new ResultResponse<List<OutlineLinkWrapper>>() {
 
             @Override
-            public boolean onResultRecive(List<OutlineLinkWrapper> result) {
+            public boolean onResultReceive(List<OutlineLinkWrapper> result) {
                 onClose.setVisibility(View.VISIBLE);
                 progressDraw.updateDivs(result);
                 updateUI(dc.getCurrentPage());
@@ -2012,9 +1953,9 @@ public class HorizontalViewActivity extends AdsFragmentActivity {
         final boolean currentPosistion = Dips.screenHeight() > Dips.screenWidth();
         if (ExtUtils.isTextFomat(getIntent()) && isInitOrientation == AppState.get().orientation) {
 
-            if (rotatoinDialog != null) {
+            if (rotationDialog != null) {
                 try {
-                    rotatoinDialog.dismiss();
+                    rotationDialog.dismiss();
                 } catch (Exception e) {
                     LOG.e(e);
                 }
@@ -2022,7 +1963,7 @@ public class HorizontalViewActivity extends AdsFragmentActivity {
 
             if (isInitPosistion != currentPosistion) {
                 AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-                dialog.setCancelable(false);
+                dialog.setCancelable(true);//maybe change this back later
                 dialog.setMessage(R.string.apply_a_new_screen_orientation_);
                 dialog.setPositiveButton(R.string.yes, new AlertDialog.OnClickListener() {
 
@@ -2032,8 +1973,12 @@ public class HorizontalViewActivity extends AdsFragmentActivity {
                         isInitPosistion = currentPosistion;
                     }
                 });
-                rotatoinDialog = dialog.show();
-                rotatoinDialog.getWindow().setLayout((int) (Dips.screenMinWH() * 0.8f), LayoutParams.WRAP_CONTENT);
+                //TODO: display a message along the lines of "canceled orientation change" if the negative button is pressed.
+                dialog.setNegativeButton(R.string.no, new AlertDialog.OnClickListener() {
+                    dialog.cancel();
+                });//this might not work. What it should do is add a button alongside the "yes" button that, when clicked, will exit out of the confirmation menu without changing the screen orientation.
+                rotationDialog = dialog.show();
+                rotationDialog.getWindow().setLayout((int) (Dips.screenMinWH() * 0.8f), LayoutParams.WRAP_CONTENT);
             }
         } else {
             Keyboards.hideNavigationOnCreate(this);
@@ -2166,7 +2111,6 @@ public class HorizontalViewActivity extends AdsFragmentActivity {
             AppState.get().isEditMode = true;
             ttsFixPosition();
         }
-
 
 
         updateBannnerTop();

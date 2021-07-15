@@ -11,72 +11,28 @@ import android.content.DialogInterface.OnClickListener;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Handler;
-import android.view.Gravity;
-import android.view.KeyEvent;
-import android.view.MenuItem;
+import android.view.*;
 import android.view.MenuItem.OnMenuItemClickListener;
-import android.view.MotionEvent;
-import android.view.View;
 import android.view.View.OnLongClickListener;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
-import android.view.WindowManager;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.SeekBar;
-import android.widget.TextView;
-
+import android.widget.*;
 import androidx.core.graphics.ColorUtils;
-
-import com.foobnix.android.utils.Apps;
-import com.foobnix.android.utils.Dips;
-import com.foobnix.android.utils.IntegerResponse;
-import com.foobnix.android.utils.Keyboards;
-import com.foobnix.android.utils.LOG;
-import com.foobnix.android.utils.TxtUtils;
-import com.foobnix.android.utils.Vibro;
-import com.foobnix.android.utils.Views;
+import com.foobnix.android.utils.*;
 import com.foobnix.model.AppSP;
 import com.foobnix.model.AppState;
-import com.foobnix.pdf.info.AppsConfig;
-import com.foobnix.pdf.info.BookmarksData;
-import com.foobnix.pdf.info.DictsHelper;
-import com.foobnix.pdf.info.ExtUtils;
-import com.foobnix.pdf.info.OutlineHelper;
+import com.foobnix.pdf.info.*;
 import com.foobnix.pdf.info.OutlineHelper.Info;
-import com.foobnix.pdf.info.R;
-import com.foobnix.pdf.info.TintUtil;
-import com.foobnix.pdf.info.UiSystemUtils;
 import com.foobnix.pdf.info.model.OutlineLinkWrapper;
-import com.foobnix.pdf.info.view.AlertDialogs;
-import com.foobnix.pdf.info.view.AnchorHelper;
-import com.foobnix.pdf.info.view.BookmarkPanel;
-import com.foobnix.pdf.info.view.BrightnessHelper;
-import com.foobnix.pdf.info.view.CustomSeek;
-import com.foobnix.pdf.info.view.Dialogs;
-import com.foobnix.pdf.info.view.DialogsPlaylist;
-import com.foobnix.pdf.info.view.DragingDialogs;
-import com.foobnix.pdf.info.view.DrawView;
-import com.foobnix.pdf.info.view.HorizontallSeekTouchEventListener;
-import com.foobnix.pdf.info.view.HypenPanelHelper;
-import com.foobnix.pdf.info.view.MyPopupMenu;
-import com.foobnix.pdf.info.view.ProgressDraw;
-import com.foobnix.pdf.info.view.UnderlineImageView;
+import com.foobnix.pdf.info.view.*;
 import com.foobnix.pdf.info.widget.DraggbleTouchListener;
 import com.foobnix.pdf.info.widget.ShareDialog;
-import com.foobnix.pdf.search.activity.HorizontalViewActivity;
 import com.foobnix.pdf.search.activity.msg.MessagePageXY;
 import com.foobnix.pdf.search.activity.msg.MessegeBrightness;
 import com.foobnix.pdf.search.view.CloseAppDialog;
 import com.foobnix.sys.TempHolder;
-import com.foobnix.tts.MessagePageNumber;
-import com.foobnix.tts.TTSControlsView;
-import com.foobnix.tts.TTSEngine;
-import com.foobnix.tts.TTSService;
-import com.foobnix.tts.TtsStatus;
+import com.foobnix.tts.*;
 import com.foobnix.ui2.AppDB;
 import com.foobnix.ui2.MainTabs2;
-
 import org.ebookdroid.BookType;
 import org.ebookdroid.LibreraApp;
 import org.greenrobot.eventbus.EventBus;
@@ -141,7 +97,7 @@ public class DocumentWrapperUI {
 
         @Override
         public void onClick(final View arg0) {
-            dc.onSrollLeft();
+            dc.onScrollLeft();
         }
     };
     public View.OnClickListener onMoveCenter = new View.OnClickListener() {
@@ -155,7 +111,7 @@ public class DocumentWrapperUI {
 
         @Override
         public void onClick(final View arg0) {
-            dc.onSrollRight();
+            dc.onScrollRight();
         }
     };
     public View.OnClickListener onNextPage = new View.OnClickListener() {
@@ -364,7 +320,7 @@ public class DocumentWrapperUI {
         @Override
         public void onProgressChanged(final SeekBar seekBar, final int progress, final boolean fromUser) {
             dc.onGoToPage(progress + 1);
-            Apps.accessibilityText(a, a.getString(R.string.m_current_page) + " " + dc.getCurentPageFirst1());
+            Apps.accessibilityText(a, a.getString(R.string.m_current_page) + " " + dc.getCurrentPageFirst1());
             //updateUI();
         }
     };
@@ -575,7 +531,7 @@ public class DocumentWrapperUI {
                         dc.getActivity().finish();
                     }
                 }
-            }, dc.getCurentPage() - 1, dc, new Runnable() {
+            }, dc.getCurrentPage() - 1, dc, new Runnable() {
 
                 @Override
                 public void run() {
@@ -893,7 +849,7 @@ public class DocumentWrapperUI {
             titleBar.removeCallbacks(null);
         }
         dc.saveCurrentPageAsync();
-        dc.onCloseActivityAdnShowInterstial();
+        dc.onCloseActivityAdcShowInterstitial();
         dc.closeActivity();
 
     }
@@ -912,7 +868,7 @@ public class DocumentWrapperUI {
 
     public void updateUI() {
         final int max = dc.getPageCount();
-        final int current = dc.getCurentPage();
+        final int current = dc.getCurrentPage();
 
         updateSpeedLabel();
 
@@ -1001,7 +957,7 @@ public class DocumentWrapperUI {
         LOG.d("dc.floatingBookmark", dc.floatingBookmark);
         if (dc.floatingBookmark != null) {
             dc.floatingBookmark.p = dc.getPercentage();
-            floatingBookmarkTextView.setText("{" + dc.getCurentPageFirst1() + "}");
+            floatingBookmarkTextView.setText("{" + dc.getCurrentPageFirst1() + "}");
             floatingBookmarkTextView.setVisibility(View.VISIBLE);
 
             BookmarksData.get().add(dc.floatingBookmark);
@@ -1174,7 +1130,7 @@ public class DocumentWrapperUI {
 
                 float x1 = anchorY.getX();
                 float y1 = anchorY.getY();
-                EventBus.getDefault().post(new MessagePageXY(MessagePageXY.TYPE_SELECT_TEXT, dc.getCurentPage(), x, y, x1, y1));
+                EventBus.getDefault().post(new MessagePageXY(MessagePageXY.TYPE_SELECT_TEXT, dc.getCurrentPage(), x, y, x1, y1));
             }
         };
         final Runnable onMoveAction = new Runnable() {
@@ -1390,7 +1346,7 @@ public class DocumentWrapperUI {
 
             @Override
             public boolean onLongClick(View v) {
-                Dialogs.showDeltaPage(anchor, dc, dc.getCurentPageFirst1(), updateUIRunnable);
+                Dialogs.showDeltaPage(anchor, dc, dc.getCurrentPageFirst1(), updateUIRunnable);
                 return true;
             }
         });
@@ -1398,7 +1354,7 @@ public class DocumentWrapperUI {
 
             @Override
             public boolean onLongClick(View v) {
-                Dialogs.showDeltaPage(anchor, dc, dc.getCurentPageFirst1(), updateUIRunnable);
+                Dialogs.showDeltaPage(anchor, dc, dc.getCurrentPageFirst1(), updateUIRunnable);
                 return true;
             }
         });
@@ -1998,7 +1954,7 @@ public class DocumentWrapperUI {
 
                 @Override
                 public void run() {
-                    Apps.accessibilityText(a, a.getString(R.string.book_is_open), a.getString(R.string.m_current_page), " " + dc.getCurentPageFirst1());
+                    Apps.accessibilityText(a, a.getString(R.string.book_is_open), a.getString(R.string.m_current_page), " " + dc.getCurrentPageFirst1());
 
                     progressDraw.updateDivs(list);
                     progressDraw.updatePageCount(dc.getPageCount() - 1);

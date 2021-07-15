@@ -3,11 +3,7 @@ package com.foobnix.ui2;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.SearchManager;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.SharedPreferences;
+import android.content.*;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.net.Uri;
@@ -21,7 +17,6 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.drawerlayout.widget.DrawerLayout.DrawerListener;
@@ -29,31 +24,15 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager.widget.ViewPager.OnPageChangeListener;
-
 import com.cloudrail.si.CloudRail;
-import com.foobnix.android.utils.Apps;
-import com.foobnix.android.utils.Dips;
-import com.foobnix.android.utils.LOG;
-import com.foobnix.android.utils.ResultResponse;
-import com.foobnix.android.utils.Safe;
-import com.foobnix.android.utils.StringDB;
-import com.foobnix.android.utils.TxtUtils;
+import com.foobnix.android.utils.*;
 import com.foobnix.drive.GFile;
 import com.foobnix.ext.CacheZipUtils.CacheDir;
 import com.foobnix.model.AppProfile;
 import com.foobnix.model.AppSP;
 import com.foobnix.model.AppState;
 import com.foobnix.pdf.SlidingTabLayout;
-import com.foobnix.pdf.info.Android6;
-import com.foobnix.pdf.info.AppsConfig;
-import com.foobnix.pdf.info.Clouds;
-import com.foobnix.pdf.info.ExportConverter;
-import com.foobnix.pdf.info.ExportSettingsManager;
-import com.foobnix.pdf.info.FontExtractor;
-import com.foobnix.pdf.info.IMG;
-import com.foobnix.pdf.info.PasswordDialog;
-import com.foobnix.pdf.info.R;
-import com.foobnix.pdf.info.TintUtil;
+import com.foobnix.pdf.info.*;
 import com.foobnix.pdf.info.model.BookCSS;
 import com.foobnix.pdf.info.view.BrightnessHelper;
 import com.foobnix.pdf.info.view.Dialogs;
@@ -69,27 +48,19 @@ import com.foobnix.pdf.search.view.AsyncProgressResultToastTask;
 import com.foobnix.pdf.search.view.CloseAppDialog;
 import com.foobnix.sys.TempHolder;
 import com.foobnix.ui2.adapter.TabsAdapter2;
-import com.foobnix.ui2.fragment.BookmarksFragment2;
-import com.foobnix.ui2.fragment.BrowseFragment2;
-import com.foobnix.ui2.fragment.OpdsFragment2;
-import com.foobnix.ui2.fragment.PrefFragment2;
-import com.foobnix.ui2.fragment.RecentFragment2;
-import com.foobnix.ui2.fragment.SearchFragment2;
-import com.foobnix.ui2.fragment.UIFragment;
+import com.foobnix.ui2.fragment.*;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
-
 import org.ebookdroid.common.settings.books.SharedBooks;
 import org.ebookdroid.ui.viewer.VerticalViewActivity;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import test.SvgActivity;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import test.SvgActivity;
 
 
 @SuppressLint("NewApi")
@@ -361,7 +332,7 @@ public class MainTabs2 extends AdsFragmentActivity {
             if (!oldConfig.exists()) {
                 new AsyncProgressResultToastTask(this, new ResultResponse<Boolean>() {
                     @Override
-                    public boolean onResultRecive(Boolean result) {
+                    public boolean onResultReceive(Boolean result) {
                         if (MainTabs2.this != null) {
                             MainTabs2.this.finish();
                             MainTabs2.this.startActivity(getIntent());

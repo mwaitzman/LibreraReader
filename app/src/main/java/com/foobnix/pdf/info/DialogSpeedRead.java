@@ -13,7 +13,6 @@ import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.foobnix.android.utils.IntegerResponse;
 import com.foobnix.android.utils.LOG;
 import com.foobnix.android.utils.TxtUtils;
@@ -142,7 +141,7 @@ public class DialogSpeedRead {
 
             @Override
             public void run() {
-                final int page = dc.getCurentPageFirst1();
+                final int page = dc.getCurrentPageFirst1();
                 final int pageCount = dc.getPageCount() + 1;
                 int counter = 0;
 
@@ -165,7 +164,7 @@ public class DialogSpeedRead {
                     });
 
                     String textForPage = dc.getTextForPage(currentPage - 1);
-                    LOG.d("textForPage",textForPage);
+                    LOG.d("textForPage", textForPage);
                     if (TxtUtils.isEmpty(textForPage)) {
                         counter++;
                     }

@@ -23,66 +23,26 @@ import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
+import android.widget.*;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.PopupMenu;
-import android.widget.ScrollView;
-import android.widget.SeekBar;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import androidx.core.util.Pair;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-
 import com.buzzingandroid.ui.HSVColorPickerDialog;
 import com.buzzingandroid.ui.HSVColorPickerDialog.OnColorSelectedListener;
 import com.foobnix.StringResponse;
-import com.foobnix.android.utils.Apps;
-import com.foobnix.android.utils.Dips;
-import com.foobnix.android.utils.IO;
-import com.foobnix.android.utils.IntegerResponse;
-import com.foobnix.android.utils.JsonDB;
-import com.foobnix.android.utils.Keyboards;
-import com.foobnix.android.utils.LOG;
-import com.foobnix.android.utils.ResultResponse2;
-import com.foobnix.android.utils.TxtUtils;
+import com.foobnix.android.utils.*;
 import com.foobnix.dao2.FileMeta;
 import com.foobnix.drive.GFile;
 import com.foobnix.model.AppProfile;
 import com.foobnix.model.AppSP;
 import com.foobnix.model.AppState;
-import com.foobnix.pdf.info.AndroidWhatsNew;
-import com.foobnix.pdf.info.AppsConfig;
-import com.foobnix.pdf.info.BookmarksData;
-import com.foobnix.pdf.info.BuildConfig;
-import com.foobnix.pdf.info.Clouds;
-import com.foobnix.pdf.info.ExtUtils;
-import com.foobnix.pdf.info.IMG;
-import com.foobnix.pdf.info.PasswordDialog;
-import com.foobnix.pdf.info.R;
-import com.foobnix.pdf.info.TintUtil;
-import com.foobnix.pdf.info.Urls;
+import com.foobnix.pdf.info.*;
 import com.foobnix.pdf.info.model.BookCSS;
-import com.foobnix.pdf.info.view.AlertDialogs;
-import com.foobnix.pdf.info.view.BrightnessHelper;
-import com.foobnix.pdf.info.view.CustomSeek;
-import com.foobnix.pdf.info.view.Dialogs;
-import com.foobnix.pdf.info.view.KeyCodeDialog;
-import com.foobnix.pdf.info.view.MultyDocSearchDialog;
-import com.foobnix.pdf.info.view.MyPopupMenu;
-import com.foobnix.pdf.info.widget.ChooserDialogFragment;
-import com.foobnix.pdf.info.widget.ColorsDialog;
+import com.foobnix.pdf.info.view.*;
+import com.foobnix.pdf.info.widget.*;
 import com.foobnix.pdf.info.widget.ColorsDialog.ColorsDialogResult;
-import com.foobnix.pdf.info.widget.DialogTranslateFromTo;
-import com.foobnix.pdf.info.widget.PrefDialogs;
-import com.foobnix.pdf.info.widget.RecentUpates;
-import com.foobnix.pdf.info.widget.ShareDialog;
 import com.foobnix.pdf.info.wrapper.DocumentController;
 import com.foobnix.pdf.info.wrapper.PasswordState;
 import com.foobnix.pdf.info.wrapper.UITab;
@@ -94,7 +54,6 @@ import com.foobnix.ui2.MainTabs2;
 import com.foobnix.ui2.MyContextWrapper;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.jmedeisis.draglinearlayout.DragLinearLayout;
-
 import org.ebookdroid.LibreraApp;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -881,8 +840,8 @@ public class PrefFragment2 extends UIFragment {
                                                          String name = all[0];
                                                          final String code = all[1];
 
-                                                         if(BuildConfig.DEBUG){
-                                                             name += " [" + code+"]";
+                                                         if (BuildConfig.DEBUG) {
+                                                             name += " [" + code + "]";
                                                          }
                                                          popupMenu.getMenu().add(name).setOnMenuItemClickListener(new OnMenuItemClickListener() {
 

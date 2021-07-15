@@ -98,7 +98,7 @@ public class EntryAdapter extends AppRecycleAdapter<Entry, RecyclerView.ViewHold
 
                 @Override
                 public void onClick(View v) {
-                    onRemoveLinkClickListener.onResultRecive(entry);
+                    onRemoveLinkClickListener.onResultReceive(entry);
                 }
             });
             //if (SamlibOPDS.isSamlibUrl(entry.homeUrl)) {
@@ -121,7 +121,7 @@ public class EntryAdapter extends AppRecycleAdapter<Entry, RecyclerView.ViewHold
 
                     @Override
                     public void onClick(View v) {
-                        onLinkClickListener.onResultRecive(new Link(entry.authorUrl));
+                        onLinkClickListener.onResultReceive(new Link(entry.authorUrl));
                     }
                 });
             } else {
@@ -186,7 +186,7 @@ public class EntryAdapter extends AppRecycleAdapter<Entry, RecyclerView.ViewHold
                             String encode = Urls.encode(search.getText().toString());
                             String replace = link.href.replace("{searchterms}", encode).replace("{searchTerms}", encode);
                             Link l = new Link(replace);
-                            onLinkClickListener.onResultRecive(l);
+                            onLinkClickListener.onResultReceive(l);
 
                             Keyboards.close(search);
                         } else {
@@ -244,7 +244,7 @@ public class EntryAdapter extends AppRecycleAdapter<Entry, RecyclerView.ViewHold
 
                     @Override
                     public void onClick(View v) {
-                        onLinkClickListener.onResultRecive(link);
+                        onLinkClickListener.onResultReceive(link);
 
                     }
                 });

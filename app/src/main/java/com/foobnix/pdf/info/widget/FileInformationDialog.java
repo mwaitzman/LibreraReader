@@ -15,29 +15,16 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.bumptech.glide.Glide;
-import com.foobnix.android.utils.Dips;
-import com.foobnix.android.utils.Keyboards;
-import com.foobnix.android.utils.LOG;
-import com.foobnix.android.utils.ResultResponse;
-import com.foobnix.android.utils.TxtUtils;
+import com.foobnix.android.utils.*;
 import com.foobnix.dao2.FileMeta;
 import com.foobnix.drive.GFile;
 import com.foobnix.model.AppBookmark;
 import com.foobnix.model.AppData;
 import com.foobnix.model.AppState;
-import com.foobnix.pdf.info.ADS;
-import com.foobnix.pdf.info.BookmarksData;
-import com.foobnix.pdf.info.BuildConfig;
-import com.foobnix.pdf.info.Clouds;
-import com.foobnix.pdf.info.ExtUtils;
-import com.foobnix.pdf.info.IMG;
-import com.foobnix.pdf.info.R;
-import com.foobnix.pdf.info.TintUtil;
+import com.foobnix.pdf.info.*;
 import com.foobnix.pdf.info.view.Dialogs;
 import com.foobnix.pdf.info.view.ScaledImageView;
 import com.foobnix.pdf.search.activity.msg.NotifyAllFragments;
@@ -49,7 +36,6 @@ import com.foobnix.ui2.AppDB.SORT_BY;
 import com.foobnix.ui2.FileMetaCore;
 import com.foobnix.ui2.adapter.DefaultListeners;
 import com.foobnix.ui2.adapter.FileMetaAdapter;
-
 import org.ebookdroid.BookType;
 import org.ebookdroid.LibreraApp;
 import org.ebookdroid.core.codec.CodecDocument;
@@ -93,14 +79,14 @@ public class FileInformationDialog {
         final FileMeta fileMeta = AppDB.get().getOrCreate(file.getPath());
 
 
-        LOG.d("FileMeta-State", fileMeta.getState(),fileMeta.getTitle());
+        LOG.d("FileMeta-State", fileMeta.getState(), fileMeta.getTitle());
 
 
         if (firstTime && TxtUtils.isEmpty(fileMeta.getTitle())) {
 
             new AsyncProgressResultToastTask(a, new ResultResponse<Boolean>() {
                 @Override
-                public boolean onResultRecive(Boolean result) {
+                public boolean onResultReceive(Boolean result) {
                     showFileInfoDialog(a, file, onDeleteAction, false);
                     return false;
                 }
@@ -249,7 +235,7 @@ public class FileInformationDialog {
                 adapter.setOnItemLongClickListener(new ResultResponse<FileMeta>() {
 
                     @Override
-                    public boolean onResultRecive(FileMeta result) {
+                    public boolean onResultReceive(FileMeta result) {
                         return true;
                     }
                 });

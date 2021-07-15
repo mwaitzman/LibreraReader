@@ -2,19 +2,9 @@ package com.foobnix.pdf.info.view;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
-import android.app.Activity;
-import android.app.ActivityManager;
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.app.ProgressDialog;
-import android.app.SearchManager;
-import android.content.ClipData;
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.DialogInterface;
+import android.app.*;
+import android.content.*;
 import android.content.DialogInterface.OnDismissListener;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -32,84 +22,33 @@ import android.speech.tts.TextToSpeech.OnInitListener;
 import android.text.ClipboardManager;
 import android.text.Html;
 import android.text.format.DateFormat;
-import android.view.Gravity;
-import android.view.KeyEvent;
-import android.view.LayoutInflater;
-import android.view.MenuItem;
+import android.view.*;
 import android.view.MenuItem.OnMenuItemClickListener;
-import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnKeyListener;
 import android.view.View.OnLongClickListener;
-import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
-import android.widget.AbsListView;
+import android.widget.*;
 import android.widget.AbsListView.OnScrollListener;
-import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.EditText;
-import android.widget.FrameLayout;
-import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.PopupMenu;
-import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
-import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
-import android.widget.Toast;
-
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.foobnix.StringResponse;
-import com.foobnix.android.utils.Apps;
-import com.foobnix.android.utils.BaseItemAdapter;
-import com.foobnix.android.utils.BaseItemLayoutAdapter;
-import com.foobnix.android.utils.Dips;
-import com.foobnix.android.utils.IntegerResponse;
-import com.foobnix.android.utils.Keyboards;
-import com.foobnix.android.utils.LOG;
-import com.foobnix.android.utils.MemoryUtils;
 import com.foobnix.android.utils.Objects;
-import com.foobnix.android.utils.ResultResponse;
-import com.foobnix.android.utils.ResultResponse2;
-import com.foobnix.android.utils.StringDB;
-import com.foobnix.android.utils.TxtUtils;
-import com.foobnix.android.utils.Vibro;
-import com.foobnix.android.utils.Views;
+import com.foobnix.android.utils.*;
 import com.foobnix.dao2.FileMeta;
 import com.foobnix.ext.CacheZipUtils;
 import com.foobnix.ext.EpubExtractor;
 import com.foobnix.hypen.HyphenPattern;
-import com.foobnix.model.AppBook;
-import com.foobnix.model.AppBookmark;
-import com.foobnix.model.AppData;
-import com.foobnix.model.AppProfile;
-import com.foobnix.model.AppSP;
-import com.foobnix.model.AppState;
-import com.foobnix.pdf.info.AppsConfig;
-import com.foobnix.pdf.info.BookmarksData;
-import com.foobnix.pdf.info.DictsHelper;
-import com.foobnix.pdf.info.ExtUtils;
-import com.foobnix.pdf.info.FontExtractor;
-import com.foobnix.pdf.info.IMG;
-import com.foobnix.pdf.info.OutlineHelper;
-import com.foobnix.pdf.info.PageUrl;
-import com.foobnix.pdf.info.R;
-import com.foobnix.pdf.info.TintUtil;
-import com.foobnix.pdf.info.Urls;
+import com.foobnix.model.*;
+import com.foobnix.pdf.info.*;
 import com.foobnix.pdf.info.model.AnnotationType;
 import com.foobnix.pdf.info.model.BookCSS;
 import com.foobnix.pdf.info.model.BookCSS.FontPack;
@@ -117,12 +56,8 @@ import com.foobnix.pdf.info.model.OutlineLinkWrapper;
 import com.foobnix.pdf.info.presentation.BookmarksAdapter;
 import com.foobnix.pdf.info.presentation.OutlineAdapter;
 import com.foobnix.pdf.info.presentation.PageThumbnailAdapter;
-import com.foobnix.pdf.info.widget.ChooserDialogFragment;
-import com.foobnix.pdf.info.widget.ColorsDialog;
+import com.foobnix.pdf.info.widget.*;
 import com.foobnix.pdf.info.widget.ColorsDialog.ColorsDialogResult;
-import com.foobnix.pdf.info.widget.DialogTranslateFromTo;
-import com.foobnix.pdf.info.widget.FontDialog;
-import com.foobnix.pdf.info.widget.TapZoneDialog;
 import com.foobnix.pdf.info.wrapper.DocumentController;
 import com.foobnix.pdf.info.wrapper.ListBoxHelper;
 import com.foobnix.pdf.info.wrapper.MagicHelper;
@@ -142,7 +77,6 @@ import com.foobnix.tts.TTSTracks;
 import com.foobnix.ui2.AppDB;
 import com.foobnix.ui2.adapter.DefaultListeners;
 import com.foobnix.ui2.adapter.FileMetaAdapter;
-
 import org.ebookdroid.BookType;
 import org.ebookdroid.common.settings.CoreSettings;
 import org.ebookdroid.common.settings.SettingsManager;
@@ -150,13 +84,7 @@ import org.ebookdroid.common.settings.books.SharedBooks;
 import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 public class DragingDialogs {
 
@@ -466,7 +394,7 @@ public class DragingDialogs {
                         } else if (id == R.id.onCenter) {
                             aciton = MovePageAction.CENTER;
                         }
-                        EventBus.getDefault().post(new MovePageAction(aciton, controller.getCurentPage()));
+                        EventBus.getDefault().post(new MovePageAction(aciton, controller.getCurrentPage()));
 
                     }
                 };
@@ -947,7 +875,7 @@ public class DragingDialogs {
                                     tts.udateButtons();
 
                                     TTSEngine.get().mp3Destroy();
-                                    TTSService.playBookPage(controller.getCurentPageFirst1() - 1, controller.getCurrentBook().getPath(), "", controller.getBookWidth(), controller.getBookHeight(), BookCSS.get().fontSizeSp, controller.getTitle());
+                                    TTSService.playBookPage(controller.getCurrentPageFirst1() - 1, controller.getCurrentBook().getPath(), "", controller.getBookWidth(), controller.getBookHeight(), BookCSS.get().fontSizeSp, controller.getTitle());
                                 } else {
                                     Toast.makeText(controller.getActivity(), R.string.incorrect_value, Toast.LENGTH_SHORT).show();
                                 }
@@ -1026,7 +954,7 @@ public class DragingDialogs {
 
                         final ResultResponse<String> info = new ResultResponse<String>() {
                             @Override
-                            public boolean onResultRecive(final String result) {
+                            public boolean onResultReceive(final String result) {
                                 controller.getActivity().runOnUiThread(new Runnable() {
 
                                     @Override
@@ -1187,8 +1115,8 @@ public class DragingDialogs {
 
                     @Override
                     public void onClick(View v) {
-                        boolean isRun = TempHolder.isSeaching;
-                        TempHolder.isSeaching = false;
+                        boolean isRun = TempHolder.isSearching;
+                        TempHolder.isSearching = false;
                         if (!isRun) {
                             searchEdit.setText("");
                             controller.clearSelectedText();
@@ -1268,8 +1196,8 @@ public class DragingDialogs {
 
                     @Override
                     public void onClick(View v) {
-                        if (TempHolder.isSeaching) {
-                            TempHolder.isSeaching = false;
+                        if (TempHolder.isSearching) {
+                            TempHolder.isSearching = false;
                             return;
                         }
                         String searchString = searchEdit.getText().toString().trim();
@@ -1277,7 +1205,7 @@ public class DragingDialogs {
                             Toast.makeText(controller.getActivity(), R.string.please_enter_more_characters_to_search, Toast.LENGTH_SHORT).show();
                             return;
                         }
-                        TempHolder.isSeaching = true;
+                        TempHolder.isSearching = true;
 
                         searchingMsg.setText(R.string.searching_please_wait_);
                         searchingMsg.setVisibility(View.VISIBLE);
@@ -1291,7 +1219,7 @@ public class DragingDialogs {
                         hMessage.removeCallbacksAndMessages(null);
                         controller.doSearch(searchString, new ResultResponse<Integer>() {
                             @Override
-                            public boolean onResultRecive(final Integer pageNumber) {
+                            public boolean onResultReceive(final Integer pageNumber) {
                                 hMessage.sendEmptyMessage(pageNumber);
                                 return false;
                             }
@@ -1306,7 +1234,7 @@ public class DragingDialogs {
 
             @Override
             public void run() {
-                TempHolder.isSeaching = false;
+                TempHolder.isSearching = false;
 
             }
         });
@@ -1323,7 +1251,7 @@ public class DragingDialogs {
                 final int page = TempHolder.get().linkPage + 1;
                 String selectedText = AppState.get().selectedText;
 
-                final int currentPage = controller.getCurentPageFirst1();
+                final int currentPage = controller.getCurrentPageFirst1();
 
                 TextView goTo = (TextView) inflate.findViewById(R.id.goTo);
                 TextView footerNumber = (TextView) inflate.findViewById(R.id.footerNumber);
@@ -1628,7 +1556,7 @@ public class DragingDialogs {
                     public void onClick(View v) {
                         TTSEngine.get().stop();
                         AppSP.get().lastBookParagraph = 0;
-                        TTSService.playBookPage(controller.getCurentPageFirst1() - 1, controller.getCurrentBook().getPath(), editText.getText().toString().trim(), controller.getBookWidth(), controller.getBookHeight(), BookCSS.get().fontSizeSp, controller.getTitle());
+                        TTSService.playBookPage(controller.getCurrentPageFirst1() - 1, controller.getCurrentBook().getPath(), editText.getText().toString().trim(), controller.getBookWidth(), controller.getBookHeight(), BookCSS.get().fontSizeSp, controller.getTitle());
                     }
                 });
 
@@ -1944,7 +1872,7 @@ public class DragingDialogs {
 
                 final EditText number = (EditText) view.findViewById(R.id.edit1);
                 number.clearFocus();
-                number.setText("" + dc.getCurentPageFirst1());
+                number.setText("" + dc.getCurrentPageFirst1());
                 grid = (GridView) view.findViewById(R.id.grid1);
                 int dpToPx = Dips.dpToPx(AppState.get().coverSmallSize);
 
@@ -1955,10 +1883,9 @@ public class DragingDialogs {
                 grid.setFastScrollEnabled(AppState.get().isShowFastScroll);
 
 
-
                 final File currentBook = dc.getCurrentBook();
                 if (ExtUtils.isValidFile(currentBook)) {
-                    grid.setAdapter(new PageThumbnailAdapter(anchor.getContext(), dc.getPageCount(), dc.getCurentPageFirst1() - 1) {
+                    grid.setAdapter(new PageThumbnailAdapter(anchor.getContext(), dc.getPageCount(), dc.getCurrentPageFirst1() - 1) {
                         @Override
                         public PageUrl getPageUrl(int page) {
                             return PageUrl.buildSmall(currentBook.getPath(), page);
@@ -2017,7 +1944,7 @@ public class DragingDialogs {
                     }
                 });
 
-                grid.setSelection(dc.getCurentPage() - 1);
+                grid.setSelection(dc.getCurrentPage() - 1);
 
                 grid.setOnScrollListener(new OnScrollListener() {
 
@@ -2033,8 +1960,8 @@ public class DragingDialogs {
 
                     @Override
                     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                        LOG.d("onScroll", firstVisibleItem, Math.abs(firstVisibleItem - dc.getCurentPage()));
-                        if (firstVisibleItem < 3 || Math.abs(firstVisibleItem - dc.getCurentPage()) < 20) {
+                        LOG.d("onScroll", firstVisibleItem, Math.abs(firstVisibleItem - dc.getCurrentPage()));
+                        if (firstVisibleItem < 3 || Math.abs(firstVisibleItem - dc.getCurrentPage()) < 20) {
                             // searchLayout.setVisibility(View.VISIBLE);
                         } else {
                             // searchLayout.setVisibility(View.GONE);
@@ -2504,7 +2431,7 @@ public class DragingDialogs {
                                                     TTSEngine.get().mp3Destroy();
                                                     BookCSS.get().mp3BookPath(aPath.getPath());
                                                     AppState.get().mp3seek = 0;
-                                                    TTSService.playBookPage(controller.getCurentPageFirst1() - 1, controller.getCurrentBook().getPath(), "", controller.getBookWidth(), controller.getBookHeight(), BookCSS.get().fontSizeSp, controller.getTitle());
+                                                    TTSService.playBookPage(controller.getCurrentPageFirst1() - 1, controller.getCurrentBook().getPath(), "", controller.getBookWidth(), controller.getBookHeight(), BookCSS.get().fontSizeSp, controller.getTitle());
                                                 } else {
                                                     ExtUtils.openWith(anchor.getContext(), aPath);
                                                 }
@@ -2538,7 +2465,7 @@ public class DragingDialogs {
                     public void run() {
                         controller.getOutline(new ResultResponse<List<OutlineLinkWrapper>>() {
                             @Override
-                            public boolean onResultRecive(final List<OutlineLinkWrapper> outline) {
+                            public boolean onResultReceive(final List<OutlineLinkWrapper> outline) {
                                 contentList.post(new Runnable() {
 
                                     @Override
@@ -2608,7 +2535,7 @@ public class DragingDialogs {
                     seek.setProgress(AppState.get().cutP);
                     editPercent.setText(AppState.get().cutP + "%");
                     if (onMoveCut != null) {
-                        onMoveCut.onResultRecive(AppState.get().cutP);
+                        onMoveCut.onResultReceive(AppState.get().cutP);
                     }
                     PageImageState.get().isShowCuttingLine = true;
                 }
@@ -2683,7 +2610,7 @@ public class DragingDialogs {
                         onRefreshDoc.run();
                         closeDialog();
                         if (wasSplit) {
-                            controller.onGoToPage(controller.getCurentPage() / 2 + 1);
+                            controller.onGoToPage(controller.getCurrentPage() / 2 + 1);
                         }
                     }
                 });
@@ -2702,7 +2629,7 @@ public class DragingDialogs {
                         onRefreshDoc.run();
                         closeDialog();
                         if (!init) {
-                            controller.onGoToPage(controller.getCurentPage() * 2 + 1);
+                            controller.onGoToPage(controller.getCurrentPage() * 2 + 1);
                         }
 
                     }
@@ -3284,7 +3211,7 @@ public class DragingDialogs {
                         Dialogs.showEditDialog(v.getContext(), statusBarColorDay.getTextString(), AppState.get().statusBarColorDays, new ResultResponse<String>() {
 
                             @Override
-                            public boolean onResultRecive(String result) {
+                            public boolean onResultReceive(String result) {
                                 AppState.get().statusBarColorDays = result;
                                 statusBarColorDay.withDefaultColors(StringDB.converToColor(AppState.get().statusBarColorDays, AppState.get().tintColor));
                                 return true;
@@ -3319,7 +3246,7 @@ public class DragingDialogs {
                         Dialogs.showEditDialog(v.getContext(), statusBarColorNight.getTextString(), AppState.get().statusBarColorNights, new ResultResponse<String>() {
 
                             @Override
-                            public boolean onResultRecive(String result) {
+                            public boolean onResultReceive(String result) {
                                 AppState.get().statusBarColorNights = result;
                                 statusBarColorNight.withDefaultColors(StringDB.converToColor(AppState.get().statusBarColorNights, AppState.get().tintColor));
                                 return true;
@@ -4278,7 +4205,7 @@ public class DragingDialogs {
                                         load.setLang(code);
                                         SharedBooks.save(load1);
                                     }
-                                    if(AppState.get().isDefaultHyphenLanguage){
+                                    if (AppState.get().isDefaultHyphenLanguage) {
                                         AppState.get().defaultHyphenLanguageCode = code;
                                     }
 
@@ -4296,8 +4223,8 @@ public class DragingDialogs {
                 isDefaultHyphenLanguage.setChecked(AppState.get().isDefaultHyphenLanguage);
                 isDefaultHyphenLanguage.setOnCheckedChangeListener((buttonView, isChecked) -> {
                     AppState.get().isDefaultHyphenLanguage = isChecked;
-                    if(isChecked){
-                        AppState.get().defaultHyphenLanguageCode= AppSP.get().hypenLang;
+                    if (isChecked) {
+                        AppState.get().defaultHyphenLanguageCode = AppSP.get().hypenLang;
                     }
                 });
                 // - hypens
@@ -4547,7 +4474,7 @@ public class DragingDialogs {
                         Dialogs.showEditDialog(v.getContext(), linkColorDay.getTextString(), BookCSS.get().linkColorDays, new ResultResponse<String>() {
 
                             @Override
-                            public boolean onResultRecive(String result) {
+                            public boolean onResultReceive(String result) {
                                 BookCSS.get().linkColorDays = result;
                                 linkColorDay.withDefaultColors(StringDB.converToColor(BookCSS.get().linkColorDays));
                                 return true;
@@ -4577,7 +4504,7 @@ public class DragingDialogs {
                         Dialogs.showEditDialog(v.getContext(), linkColorNight.getTextString(), BookCSS.get().linkColorNigths, new ResultResponse<String>() {
 
                             @Override
-                            public boolean onResultRecive(String result) {
+                            public boolean onResultReceive(String result) {
                                 BookCSS.get().linkColorNigths = result;
                                 linkColorNight.withDefaultColors(StringDB.converToColor(BookCSS.get().linkColorNigths));
                                 return true;
@@ -4753,7 +4680,7 @@ public class DragingDialogs {
                         DragingDialogs.sliceDialog(anchor, controller, updateUIRefresh, new ResultResponse<Integer>() {
 
                             @Override
-                            public boolean onResultRecive(Integer result) {
+                            public boolean onResultReceive(Integer result) {
                                 TintUtil.setTintImageWithAlpha(bookCut, !AppSP.get().isCut ? TintUtil.COLOR_TINT_GRAY : Color.LTGRAY);
                                 SettingsManager.getBookSettings().updateFromAppState();
                                 EventBus.getDefault().post(new InvalidateMessage());

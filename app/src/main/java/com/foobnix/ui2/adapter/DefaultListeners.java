@@ -6,10 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.widget.Toast;
-
 import androidx.documentfile.provider.DocumentFile;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-
 import com.foobnix.android.utils.LOG;
 import com.foobnix.android.utils.ResultResponse;
 import com.foobnix.android.utils.ResultResponse2;
@@ -18,12 +16,7 @@ import com.foobnix.model.AppData;
 import com.foobnix.model.AppSP;
 import com.foobnix.model.AppState;
 import com.foobnix.model.SimpleMeta;
-import com.foobnix.pdf.info.ADS;
-import com.foobnix.pdf.info.Clouds;
-import com.foobnix.pdf.info.ExtUtils;
-import com.foobnix.pdf.info.IMG;
-import com.foobnix.pdf.info.Playlists;
-import com.foobnix.pdf.info.R;
+import com.foobnix.pdf.info.*;
 import com.foobnix.pdf.info.view.Dialogs;
 import com.foobnix.pdf.info.view.DialogsPlaylist;
 import com.foobnix.pdf.info.view.Downloader;
@@ -39,7 +32,6 @@ import com.foobnix.sys.TempHolder;
 import com.foobnix.ui2.AppDB;
 import com.foobnix.ui2.MainTabs2;
 import com.foobnix.ui2.fragment.UIFragment;
-
 import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
@@ -50,7 +42,7 @@ public class DefaultListeners {
         searchAdapter.setOnItemClickListener(new ResultResponse<FileMeta>() {
 
             @Override
-            public boolean onResultRecive(final FileMeta result) {
+            public boolean onResultReceive(final FileMeta result) {
                 onClick.run();
                 dc.onCloseActivityFinal(new Runnable() {
 
@@ -77,7 +69,7 @@ public class DefaultListeners {
         searchAdapter.setOnTagClickListner(new ResultResponse<String>() {
 
             @Override
-            public boolean onResultRecive(String result) {
+            public boolean onResultReceive(String result) {
                 showBooksByTag(a, result);
                 return false;
             }
@@ -103,7 +95,7 @@ public class DefaultListeners {
         return new ResultResponse<FileMeta>() {
 
             @Override
-            public boolean onResultRecive(final FileMeta result) {
+            public boolean onResultReceive(final FileMeta result) {
 
                 if (false) {
                     Dialogs.testWebView(a, result.getPath());
@@ -153,11 +145,11 @@ public class DefaultListeners {
                     EventBus.getDefault().post(new OpenDirMessage(result.getPath()));
 
                 } else {
-                    if(AppSP.get().readingMode == AppState.READING_MODE_OPEN_WITH ){
+                    if (AppSP.get().readingMode == AppState.READING_MODE_OPEN_WITH) {
                         AppData.get().addRecent(new SimpleMeta(result.getPath()));
                         EventBus.getDefault().post(new NotifyAllFragments());
                         ExtUtils.openWith(a, new File(result.getPath()));
-                        return  false;
+                        return false;
                     }
 
                     if (AppSP.get().readingMode == AppState.READING_MODE_TAG_MANAGER && !ExtUtils.isExteralSD(result.getPath())) {
@@ -192,7 +184,7 @@ public class DefaultListeners {
         return new ResultResponse<FileMeta>() {
 
             @Override
-            public boolean onResultRecive(final FileMeta result) {
+            public boolean onResultReceive(final FileMeta result) {
                 LOG.d("getOnItemLongClickListener");
 
                 if (result.getPath().endsWith(Playlists.L_PLAYLIST)) {
@@ -380,7 +372,7 @@ public class DefaultListeners {
         return new ResultResponse<FileMeta>() {
 
             @Override
-            public boolean onResultRecive(final FileMeta result) {
+            public boolean onResultReceive(final FileMeta result) {
 
                 ADS.hideAdsTemp(a);
 
@@ -424,7 +416,7 @@ public class DefaultListeners {
         return new ResultResponse<String>() {
 
             @Override
-            public boolean onResultRecive(String result) {
+            public boolean onResultReceive(String result) {
 
                 result = AppDB.SEARCH_IN.AUTHOR.getDotPrefix() + " " + result;
 
@@ -442,7 +434,7 @@ public class DefaultListeners {
         return new ResultResponse<String>() {
 
             @Override
-            public boolean onResultRecive(String result) {
+            public boolean onResultReceive(String result) {
 
                 result = AppDB.SEARCH_IN.SERIES.getDotPrefix() + " " + result;
 

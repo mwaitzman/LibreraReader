@@ -1,13 +1,8 @@
 package com.foobnix.pdf.search.activity;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Matrix;
-import android.graphics.Paint;
+import android.graphics.*;
 import android.graphics.Paint.Style;
-import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Handler;
@@ -18,28 +13,16 @@ import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.Scroller;
 import android.widget.Toast;
-
-import com.foobnix.android.utils.Apps;
-import com.foobnix.android.utils.Dips;
-import com.foobnix.android.utils.LOG;
-import com.foobnix.android.utils.TxtUtils;
-import com.foobnix.android.utils.Vibro;
+import com.foobnix.android.utils.*;
 import com.foobnix.model.AppSP;
 import com.foobnix.model.AppState;
 import com.foobnix.pdf.info.R;
 import com.foobnix.pdf.info.model.BookCSS;
 import com.foobnix.pdf.info.view.BrightnessHelper;
 import com.foobnix.pdf.info.wrapper.MagicHelper;
-import com.foobnix.pdf.search.activity.msg.InvalidateMessage;
-import com.foobnix.pdf.search.activity.msg.MessageAutoFit;
-import com.foobnix.pdf.search.activity.msg.MessageCenterHorizontally;
-import com.foobnix.pdf.search.activity.msg.MessageEvent;
-import com.foobnix.pdf.search.activity.msg.MessagePageXY;
-import com.foobnix.pdf.search.activity.msg.MovePageAction;
-import com.foobnix.pdf.search.activity.msg.TextWordsMessage;
+import com.foobnix.pdf.search.activity.msg.*;
 import com.foobnix.sys.ClickUtils;
 import com.foobnix.sys.TempHolder;
-
 import org.ebookdroid.LibreraApp;
 import org.ebookdroid.core.codec.PageLink;
 import org.ebookdroid.droids.mupdf.codec.TextWord;
@@ -989,7 +972,7 @@ public class PageImaveView extends View {
                     }
 
                 } else if (BookCSS.get().isTextFormat()) {
-                    if (!TempHolder.isSeaching) {
+                    if (!TempHolder.isSearching) {
                         selectText(event.getX(), event.getY(), event.getX(), event.getY());
                         if (!TxtUtils.isFooterNote(AppState.get().selectedText)) {
                             PageImageState.get().cleanSelectedWords();

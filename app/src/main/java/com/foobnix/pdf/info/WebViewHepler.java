@@ -7,7 +7,6 @@ import android.graphics.Canvas;
 import android.os.Build;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-
 import com.foobnix.android.utils.Dips;
 import com.foobnix.android.utils.LOG;
 import com.foobnix.android.utils.ResultResponse;
@@ -51,7 +50,7 @@ public class WebViewHepler {
                 final Canvas c = new Canvas(bitmap);
                 // webView.scrollTo(0, Dips.screenHeight() / 2 * -1);
                 webView.draw(c);
-                res.onResultRecive(bitmap);
+                res.onResultReceive(bitmap);
 
             }
 

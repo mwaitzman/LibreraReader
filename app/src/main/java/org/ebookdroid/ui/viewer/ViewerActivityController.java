@@ -10,13 +10,7 @@ import android.net.Uri;
 import android.text.InputType;
 import android.widget.EditText;
 import android.widget.Toast;
-
-import com.foobnix.android.utils.Apps;
-import com.foobnix.android.utils.Intents;
-import com.foobnix.android.utils.LOG;
-import com.foobnix.android.utils.ResultResponse;
-import com.foobnix.android.utils.Safe;
-import com.foobnix.android.utils.TxtUtils;
+import com.foobnix.android.utils.*;
 import com.foobnix.dao2.FileMeta;
 import com.foobnix.model.AppBook;
 import com.foobnix.model.AppSP;
@@ -27,13 +21,11 @@ import com.foobnix.pdf.info.model.OutlineLinkWrapper;
 import com.foobnix.pdf.info.wrapper.DocumentController;
 import com.foobnix.pdf.info.wrapper.DocumentWrapperUI;
 import com.foobnix.pdf.search.activity.HorizontalModeController;
-import com.foobnix.pdf.search.activity.HorizontalViewActivity;
 import com.foobnix.sys.TempHolder;
 import com.foobnix.sys.VerticalModeController;
 import com.foobnix.tts.TTSEngine;
 import com.foobnix.tts.TTSNotification;
 import com.foobnix.ui2.FileMetaCore;
-
 import org.ebookdroid.BookType;
 import org.ebookdroid.common.settings.SettingsManager;
 import org.ebookdroid.common.settings.listeners.IBookSettingsChangeListener;
@@ -212,18 +204,12 @@ public class ViewerActivityController extends ActionController<VerticalViewActiv
                 controller.loadOutline(new ResultResponse<List<OutlineLinkWrapper>>() {
 
                     @Override
-                    public boolean onResultRecive(List<OutlineLinkWrapper> result) {
+                    public boolean onResultReceive(List<OutlineLinkWrapper> result) {
                         wrapperControlls.showOutline(result, controller.getPageCount());
 
                         return false;
                     }
                 });
-
-
-
-
-
-
 
 
             }
@@ -275,7 +261,7 @@ public class ViewerActivityController extends ActionController<VerticalViewActiv
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-                controller.onCloseActivityAdnShowInterstial();
+                controller.onCloseActivityAdcShowInterstitial();
             }
         });
         dialog.setPositiveButton(R.string.open_file, new OnClickListener() {
@@ -287,7 +273,7 @@ public class ViewerActivityController extends ActionController<VerticalViewActiv
                     dialog.dismiss();
                     startDecoding(fileName, input.getText().toString());
                 } else {
-                    controller.onCloseActivityAdnShowInterstial();
+                    controller.onCloseActivityAdcShowInterstitial();
                 }
             }
         });

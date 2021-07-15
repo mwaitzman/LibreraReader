@@ -4,15 +4,12 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.widget.Toast;
-
 import androidx.core.util.Pair;
-
 import com.foobnix.android.utils.LOG;
 import com.foobnix.android.utils.ResultResponse;
 import com.foobnix.dao2.FileMeta;
 import com.foobnix.model.AppProfile;
 import com.foobnix.ui2.AppDB;
-
 import org.librera.JSONArray;
 import org.librera.JSONException;
 import org.librera.LinkedJSONObject;
@@ -120,7 +117,7 @@ public class ExportSettingsManager {
             for (int i = jsonObject.length() - 1; i >= 0; i--) {
                 String path = jsonObject.getString(i);
                 if (path != null) {
-                    action.onResultRecive(path);
+                    action.onResultReceive(path);
                 }
             }
         } catch (Exception e) {
@@ -136,7 +133,7 @@ public class ExportSettingsManager {
             for (int i = jsonObject.length() - 1; i >= 0; i--) {
                 LinkedJSONObject object = jsonObject.getJSONObject(i);
                 if (object != null) {
-                    action.onResultRecive(new Pair<String, String>(object.getString("path"), object.getString("tag")));
+                    action.onResultReceive(new Pair<String, String>(object.getString("path"), object.getString("tag")));
                 }
             }
         } catch (Exception e) {

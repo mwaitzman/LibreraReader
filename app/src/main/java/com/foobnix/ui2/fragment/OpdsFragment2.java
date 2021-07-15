@@ -17,38 +17,17 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
+import android.widget.*;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.PopupMenu;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import androidx.core.util.Pair;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.foobnix.android.utils.Keyboards;
-import com.foobnix.android.utils.LOG;
-import com.foobnix.android.utils.ResultResponse;
-import com.foobnix.android.utils.ResultResponse2;
-import com.foobnix.android.utils.TxtUtils;
+import com.foobnix.android.utils.*;
 import com.foobnix.dao2.FileMeta;
 import com.foobnix.model.AppProfile;
 import com.foobnix.model.AppState;
-import com.foobnix.opds.Entry;
-import com.foobnix.opds.Feed;
-import com.foobnix.opds.Hrefs;
-import com.foobnix.opds.Link;
-import com.foobnix.opds.OPDS;
-import com.foobnix.opds.SamlibOPDS;
-import com.foobnix.pdf.info.ADS;
-import com.foobnix.pdf.info.ExtUtils;
-import com.foobnix.pdf.info.R;
-import com.foobnix.pdf.info.TintUtil;
-import com.foobnix.pdf.info.Urls;
+import com.foobnix.opds.*;
+import com.foobnix.pdf.info.*;
 import com.foobnix.pdf.info.model.BookCSS;
 import com.foobnix.pdf.info.view.AlertDialogs;
 import com.foobnix.pdf.info.view.MyProgressBar;
@@ -58,21 +37,16 @@ import com.foobnix.sys.TempHolder;
 import com.foobnix.ui2.AppDB;
 import com.foobnix.ui2.adapter.EntryAdapter;
 import com.foobnix.ui2.fast.FastScrollRecyclerView;
+import okhttp3.CacheControl;
+import okhttp3.Response;
+import okio.BufferedSink;
+import okio.Okio;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Stack;
-
-import okhttp3.CacheControl;
-import okhttp3.Response;
-import okio.BufferedSink;
-import okio.Okio;
+import java.util.*;
 
 public class OpdsFragment2 extends UIFragment<Entry> {
     public static final Pair<Integer, Integer> PAIR = new Pair<Integer, Integer>(R.string.network, R.drawable.glyphicons_2_global);
@@ -208,7 +182,7 @@ public class OpdsFragment2 extends UIFragment<Entry> {
         searchAdapter.setOnItemClickListener(new ResultResponse<Entry>() {
 
             @Override
-            public boolean onResultRecive(Entry result) {
+            public boolean onResultReceive(Entry result) {
                 for (Link link : result.links) {
                     if (link.isOpdsLink()) {
                         onClickLink(link);
@@ -223,7 +197,7 @@ public class OpdsFragment2 extends UIFragment<Entry> {
         searchAdapter.setOnRemoveLinkClickListener(new ResultResponse<Entry>() {
 
             @Override
-            public boolean onResultRecive(final Entry result) {
+            public boolean onResultReceive(final Entry result) {
                 AlertDialogs.showDialog(getActivity(), getActivity().getString(R.string.do_you_want_to_delete_) + " " + result.title, getString(R.string.delete), new Runnable() {
 
                     @Override
@@ -241,7 +215,7 @@ public class OpdsFragment2 extends UIFragment<Entry> {
         searchAdapter.setOnLinkClickListener(new ResultResponse<Link>() {
 
             @Override
-            public boolean onResultRecive(Link link) {
+            public boolean onResultReceive(Link link) {
                 onClickLink(link);
                 return false;
             }
@@ -249,7 +223,7 @@ public class OpdsFragment2 extends UIFragment<Entry> {
 
         searchAdapter.setOnItemLongClickListener(new ResultResponse<Entry>() {
             @Override
-            public boolean onResultRecive(Entry result) {
+            public boolean onResultReceive(Entry result) {
                 if (url.equals("/")) {
                     AddCatalogDialog.showDialog(getActivity(), new Runnable() {
 

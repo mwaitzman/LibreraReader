@@ -15,7 +15,6 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
-
 import com.foobnix.android.utils.Dips;
 import com.foobnix.android.utils.Intents;
 import com.foobnix.android.utils.Keyboards;
@@ -29,7 +28,6 @@ import com.foobnix.pdf.info.ADS;
 import com.foobnix.pdf.info.Android6;
 import com.foobnix.pdf.info.ExtUtils;
 import com.foobnix.pdf.info.PasswordDialog;
-import com.foobnix.pdf.info.R;
 import com.foobnix.pdf.info.model.BookCSS;
 import com.foobnix.pdf.info.view.BrightnessHelper;
 import com.foobnix.pdf.info.wrapper.DocumentController;
@@ -39,7 +37,6 @@ import com.foobnix.tts.TTSNotification;
 import com.foobnix.ui2.FileMetaCore;
 import com.foobnix.ui2.MainTabs2;
 import com.foobnix.ui2.MyContextWrapper;
-
 import org.ebookdroid.common.settings.SettingsManager;
 import org.ebookdroid.ui.viewer.viewers.PdfSurfaceView;
 import org.emdev.ui.AbstractActionActivity;
@@ -148,8 +145,6 @@ public class VerticalViewActivity extends AbstractActionActivity<VerticalViewAct
         view = new PdfSurfaceView(getController());
 
 
-
-
         frameLayout.addView(view.getView());
 
         getController().afterCreate(this);
@@ -237,7 +232,7 @@ public class VerticalViewActivity extends AbstractActionActivity<VerticalViewAct
         needToRestore = AppState.get().isAutoScroll;
         AppState.get().isAutoScroll = false;
         AppProfile.save(this);
-        TempHolder.isSeaching = false;
+        TempHolder.isSearching = false;
         TempHolder.isActiveSpeedRead.set(false);
 
         if (handler != null) {
@@ -308,7 +303,7 @@ public class VerticalViewActivity extends AbstractActionActivity<VerticalViewAct
 
             if (isInitPosition != currentPosition) {
                 AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-                dialog.setCancelable(false);
+                dialog.setCancelable(true);
                 dialog.setMessage(R.string.apply_a_new_screen_orientation_);
                 dialog.setPositiveButton(R.string.yes, new AlertDialog.OnClickListener() {
 
@@ -318,6 +313,10 @@ public class VerticalViewActivity extends AbstractActionActivity<VerticalViewAct
                         isInitPosition = currentPosition;
                     }
                 });
+                //TODO: display a message along the lines of "canceled orientation change" if the negative button is pressed.
+                dialog.setNegativeButton(R.string.no, new AlertDialog.OnClickListener() {
+                    dialog.cancel();
+                });//this might not work. What it should do is add a button alongside the "yes" button that, when clicked, will exit out of the confirmation menu without changing the screen orientation.
                 rotationDialog = dialog.show();
                 rotationDialog.getWindow().setLayout((int) (Dips.screenMinWH() * 0.8f), LayoutParams.WRAP_CONTENT);
 
@@ -403,7 +402,7 @@ public class VerticalViewActivity extends AbstractActionActivity<VerticalViewAct
             CloseAppDialog.showOnLongClickDialog(getController().getActivity(), null, getController().getListener());
         } else {
             //showInterstial();
-            getController().getListener().onCloseActivityAdnShowInterstial();
+            getController().getListener().onCloseActivityAdcShowInterstitial();
         }
 
     }

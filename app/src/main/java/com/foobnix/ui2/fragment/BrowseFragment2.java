@@ -15,47 +15,25 @@ import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.Document;
 import android.util.TypedValue;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.MenuItem;
+import android.view.*;
 import android.view.MenuItem.OnMenuItemClickListener;
-import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
-import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
-import android.widget.CompoundButton;
-import android.widget.EditText;
-import android.widget.HorizontalScrollView;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
-
+import android.widget.*;
 import androidx.core.util.Pair;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
-
 import com.cloudrail.si.interfaces.CloudStorage;
 import com.cloudrail.si.types.CloudMetaData;
 import com.foobnix.StringResponse;
-import com.foobnix.android.utils.Apps;
-import com.foobnix.android.utils.Dips;
-import com.foobnix.android.utils.LOG;
-import com.foobnix.android.utils.ResultResponse;
-import com.foobnix.android.utils.StringDB;
-import com.foobnix.android.utils.TxtUtils;
+import com.foobnix.android.utils.*;
 import com.foobnix.dao2.FileMeta;
 import com.foobnix.drive.GFile;
 import com.foobnix.model.AppData;
 import com.foobnix.model.AppProfile;
 import com.foobnix.model.AppState;
-import com.foobnix.pdf.info.AppsConfig;
-import com.foobnix.pdf.info.Clouds;
-import com.foobnix.pdf.info.ExtUtils;
-import com.foobnix.pdf.info.FileMetaComparators;
-import com.foobnix.pdf.info.R;
-import com.foobnix.pdf.info.TintUtil;
+import com.foobnix.pdf.info.*;
 import com.foobnix.pdf.info.io.SearchCore;
 import com.foobnix.pdf.info.model.BookCSS;
 import com.foobnix.pdf.info.view.AlertDialogs;
@@ -73,18 +51,12 @@ import com.foobnix.ui2.MainTabs2;
 import com.foobnix.ui2.adapter.DefaultListeners;
 import com.foobnix.ui2.adapter.FileMetaAdapter;
 import com.foobnix.ui2.fast.FastScrollRecyclerView;
-
 import org.ebookdroid.BookType;
 import org.ebookdroid.droids.FolderContext;
 import org.ebookdroid.droids.MdContext;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class BrowseFragment2 extends UIFragment<FileMeta> {
@@ -121,16 +93,16 @@ public class BrowseFragment2 extends UIFragment<FileMeta> {
             if (fragmentType == TYPE_SELECT_FOLDER) {
 
                 if (ExtUtils.isExteralSD(BookCSS.get().dirLastPath) || new File(BookCSS.get().dirLastPath).canRead()) {
-                    onPositiveAction.onResultRecive(BookCSS.get().dirLastPath);
+                    onPositiveAction.onResultReceive(BookCSS.get().dirLastPath);
                 } else {
                     Toast.makeText(getContext(), R.string.incorrect_value, Toast.LENGTH_SHORT).show();
                 }
             } else if (fragmentType == TYPE_SELECT_FILE) {
-                onPositiveAction.onResultRecive(BookCSS.get().dirLastPath + "/" + editPath.getText());
+                onPositiveAction.onResultReceive(BookCSS.get().dirLastPath + "/" + editPath.getText());
             } else if (fragmentType == TYPE_SELECT_FILE_OR_FOLDER) {
-                onPositiveAction.onResultRecive(editPath.getText().toString());
+                onPositiveAction.onResultReceive(editPath.getText().toString());
             } else if (fragmentType == TYPE_CREATE_FILE) {
-                onPositiveAction.onResultRecive(BookCSS.get().dirLastPath + "/" + editPath.getText());
+                onPositiveAction.onResultReceive(BookCSS.get().dirLastPath + "/" + editPath.getText());
             }
 
         }
@@ -141,7 +113,7 @@ public class BrowseFragment2 extends UIFragment<FileMeta> {
         @Override
         public void onClick(View v) {
             if (onCloseAction != null) {
-                onCloseAction.onResultRecive("");
+                onCloseAction.onResultReceive("");
             }
         }
     };
@@ -521,7 +493,7 @@ public class BrowseFragment2 extends UIFragment<FileMeta> {
         searchAdapter.setOnItemClickListener(new ResultResponse<FileMeta>() {
 
             @Override
-            public boolean onResultRecive(FileMeta result) {
+            public boolean onResultReceive(FileMeta result) {
                 if (recyclerView.getLayoutManager() instanceof LinearLayoutManager) {
                     int pos = ((LinearLayoutManager) recyclerView.getLayoutManager()).findFirstVisibleItemPosition();
                     rememberPos.put(displayPath, pos);
@@ -539,7 +511,7 @@ public class BrowseFragment2 extends UIFragment<FileMeta> {
                     }
                 } else {
                     if (fragmentType == TYPE_DEFAULT) {
-                        DefaultListeners.getOnItemClickListener(getActivity()).onResultRecive(result);
+                        DefaultListeners.getOnItemClickListener(getActivity()).onResultReceive(result);
                     } else if (fragmentType == TYPE_SELECT_FILE) {
                         editPath.setText(ExtUtils.getFileName(result.getPath()));
                     } else if (fragmentType == TYPE_SELECT_FILE_OR_FOLDER) {
@@ -553,7 +525,7 @@ public class BrowseFragment2 extends UIFragment<FileMeta> {
 
         searchAdapter.setOnItemLongClickListener(new ResultResponse<FileMeta>() {
             @Override
-            public boolean onResultRecive(FileMeta result) {
+            public boolean onResultReceive(FileMeta result) {
                 if (result.getCusType() != null && result.getCusType() == FileMetaAdapter.DISPLAY_TYPE_DIRECTORY) {
                     // displayAnyPath(result.getPath());
                     if (TxtUtils.isNotEmpty(TempHolder.get().copyFromPath)) {
@@ -568,7 +540,7 @@ public class BrowseFragment2 extends UIFragment<FileMeta> {
                         deleteFolderPopup(getActivity(), result.getPath());
                     }
                 } else {
-                    DefaultListeners.getOnItemLongClickListener(getActivity(), searchAdapter).onResultRecive(result);
+                    DefaultListeners.getOnItemLongClickListener(getActivity(), searchAdapter).onResultReceive(result);
                 }
                 return false;
             }
@@ -707,7 +679,7 @@ public class BrowseFragment2 extends UIFragment<FileMeta> {
 
                         Dialogs.showEditDialog2(getActivity(), getString(R.string.go_to_the_folder), displayPath1, new ResultResponse<String>() {
                             @Override
-                            public boolean onResultRecive(String path1) {
+                            public boolean onResultReceive(String path1) {
                                 displayAnyPath(path1);
                                 return false;
                             }
@@ -1175,7 +1147,7 @@ public class BrowseFragment2 extends UIFragment<FileMeta> {
                             //deleteFolderPopup(getActivity(), pathFull);
                             Dialogs.showEditDialog2(getActivity(), getString(R.string.go_to_the_folder), pathFull, new ResultResponse<String>() {
                                 @Override
-                                public boolean onResultRecive(String path1) {
+                                public boolean onResultReceive(String path1) {
                                     displayAnyPath(path1);
                                     return false;
                                 }

@@ -7,7 +7,6 @@ import android.view.Gravity;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-
 import com.foobnix.android.utils.Keyboards;
 import com.foobnix.model.AppBookmark;
 import com.foobnix.pdf.info.BookmarksData;
@@ -23,7 +22,7 @@ public class ListBoxHelper {
 
         final AlertDialog.Builder builder = new AlertDialog.Builder(a);
 
-        builder.setTitle(a.getString(R.string.bookmark_on_page_) + " " + controller.getCurentPageFirst1());
+        builder.setTitle(a.getString(R.string.bookmark_on_page_) + " " + controller.getCurrentPageFirst1());
 
         LinearLayout layout = new LinearLayout(a);
         layout.setOrientation(LinearLayout.VERTICAL);
@@ -97,7 +96,7 @@ public class ListBoxHelper {
     public static void showEditDeleteDialog(final AppBookmark bookmark, DocumentController controller, final BookmarksAdapter bookmarksAdapter, final List<AppBookmark> objects, Runnable onRefresh) {
 
         final AlertDialog.Builder builder = new AlertDialog.Builder(controller.getActivity());
-        builder.setTitle(controller.getActivity().getString(R.string.bookmark_on_page_) + " " + controller.getCurentPage());
+        builder.setTitle(controller.getActivity().getString(R.string.bookmark_on_page_) + " " + controller.getCurrentPage());
 
 
         LinearLayout layout = new LinearLayout(controller.getActivity());
@@ -133,7 +132,7 @@ public class ListBoxHelper {
                         bookmarksAdapter.notifyDataSetChanged();
                         Keyboards.close(editText);
 
-                        if(onRefresh!=null){
+                        if (onRefresh != null) {
                             onRefresh.run();
                         }
 
@@ -159,7 +158,7 @@ public class ListBoxHelper {
                 objects.remove(bookmark);
                 bookmarksAdapter.notifyDataSetChanged();
 
-                if(onRefresh!=null){
+                if (onRefresh != null) {
                     onRefresh.run();
                 }
 

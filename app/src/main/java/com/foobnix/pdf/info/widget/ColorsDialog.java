@@ -10,22 +10,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
-
+import android.widget.*;
 import androidx.fragment.app.FragmentActivity;
-
 import com.buzzingandroid.ui.HSVColorPickerDialog.OnColorSelectedListener;
 import com.buzzingandroid.ui.HSVColorWheel;
 import com.buzzingandroid.ui.HSVValueSlider;
-import com.foobnix.android.utils.IntegerResponse;
-import com.foobnix.android.utils.LOG;
-import com.foobnix.android.utils.ResultResponse2;
-import com.foobnix.android.utils.TxtUtils;
-import com.foobnix.android.utils.Views;
+import com.foobnix.android.utils.*;
 import com.foobnix.model.AppProfile;
 import com.foobnix.model.AppState;
 import com.foobnix.pdf.info.ExtUtils;

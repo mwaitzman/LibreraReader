@@ -200,7 +200,7 @@ public class FileMetaAdapter extends AppRecycleAdapter<FileMeta, RecyclerView.Vi
 
                     @Override
                     public void onClick(View v) {
-                        onGridOrList.onResultRecive(holder.onGridList);
+                        onGridOrList.onResultReceive(holder.onGridList);
                     }
                 });
             }
@@ -358,7 +358,7 @@ public class FileMetaAdapter extends AppRecycleAdapter<FileMeta, RecyclerView.Vi
 
                     @Override
                     public void onClick(View v) {
-                        onItemLongClickListener.onResultRecive(fileMeta);
+                        onItemLongClickListener.onResultReceive(fileMeta);
                     }
                 });
                 if (TEMP_VALUE_STAR_GRID_ITEM == tempValue || new File(fileMeta.getPath()).length() == 0) {
@@ -516,7 +516,7 @@ public class FileMetaAdapter extends AppRecycleAdapter<FileMeta, RecyclerView.Vi
                 @Override
                 public void onClick(View v) {
                     if (onSeriesClickListener != null) {
-                        onSeriesClickListener.onResultRecive(sequence);
+                        onSeriesClickListener.onResultReceive(sequence);
                     }
                 }
             });
@@ -566,7 +566,7 @@ public class FileMetaAdapter extends AppRecycleAdapter<FileMeta, RecyclerView.Vi
                     @Override
                     public void onClick(View v) {
                         if (onSeriesClickListener != null) {
-                            onSeriesClickListener.onResultRecive(fileMeta.getSequence().replace(",", ""));
+                            onSeriesClickListener.onResultReceive(fileMeta.getSequence().replace(",", ""));
                         }
                     }
                 });
@@ -582,7 +582,7 @@ public class FileMetaAdapter extends AppRecycleAdapter<FileMeta, RecyclerView.Vi
             @Override
             public void onClick(View v) {
                 if (onAuthorClickListener != null) {
-                    onAuthorClickListener.onResultRecive(fileMeta.getAuthor());
+                    onAuthorClickListener.onResultReceive(fileMeta.getAuthor());
                 }
 
             }
@@ -613,7 +613,7 @@ public class FileMetaAdapter extends AppRecycleAdapter<FileMeta, RecyclerView.Vi
                         @Override
                         public void onClick(View v) {
                             if (onTagClickListner != null) {
-                                onTagClickListner.onResultRecive(tag);
+                                onTagClickListner.onResultReceive(tag);
                             }
 
                         }
@@ -846,7 +846,7 @@ public class FileMetaAdapter extends AppRecycleAdapter<FileMeta, RecyclerView.Vi
 
                 @Override
                 public void onClick(View v) {
-                    onDeleteClickListener.onResultRecive(fileMeta);
+                    onDeleteClickListener.onResultReceive(fileMeta);
                 }
             });
 
@@ -860,7 +860,7 @@ public class FileMetaAdapter extends AppRecycleAdapter<FileMeta, RecyclerView.Vi
             @Override
             public void onClick(View v) {
                 if (onMenuClickListener != null && fileMeta != null) {
-                    onMenuClickListener.onResultRecive(fileMeta);
+                    onMenuClickListener.onResultReceive(fileMeta);
                 }
             }
 
@@ -869,14 +869,14 @@ public class FileMetaAdapter extends AppRecycleAdapter<FileMeta, RecyclerView.Vi
 
             @Override
             public void onClick(View v) {
-                onItemClickListener.onResultRecive(fileMeta);
+                onItemClickListener.onResultReceive(fileMeta);
             }
         });
         holder.parent.setOnLongClickListener(new OnLongClickListener() {
 
             @Override
             public boolean onLongClick(View v) {
-                onItemLongClickListener.onResultRecive(fileMeta);
+                onItemLongClickListener.onResultReceive(fileMeta);
                 return true;
             }
         });

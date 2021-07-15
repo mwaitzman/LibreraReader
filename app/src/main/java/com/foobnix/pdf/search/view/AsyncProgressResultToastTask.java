@@ -52,7 +52,7 @@ public abstract class AsyncProgressResultToastTask extends AsyncTask<Object, Obj
             LOG.d(e);
         }
         if (onResult != null) {
-            onResult.onResultRecive(result);
+            onResult.onResultReceive(result);
         }
 
         if (result) {

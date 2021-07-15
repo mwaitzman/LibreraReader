@@ -10,13 +10,7 @@ import android.speech.tts.TextToSpeech.EngineInfo;
 import android.speech.tts.TextToSpeech.OnInitListener;
 import android.speech.tts.TextToSpeech.OnUtteranceCompletedListener;
 import android.widget.Toast;
-
-import com.foobnix.android.utils.IO;
-import com.foobnix.android.utils.LOG;
-import com.foobnix.android.utils.MyMath;
-import com.foobnix.android.utils.ResultResponse;
-import com.foobnix.android.utils.TxtUtils;
-import com.foobnix.android.utils.Vibro;
+import com.foobnix.android.utils.*;
 import com.foobnix.mobi.parser.IOUtils;
 import com.foobnix.mobi.parser.MobiParserIS;
 import com.foobnix.model.AppBookmark;
@@ -28,15 +22,10 @@ import com.foobnix.pdf.info.model.BookCSS;
 import com.foobnix.pdf.info.wrapper.DocumentController;
 import com.foobnix.sys.TempHolder;
 import com.github.axet.lamejni.Lame;
-
 import org.ebookdroid.LibreraApp;
 import org.greenrobot.eventbus.EventBus;
 
-import java.io.BufferedInputStream;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
+import java.io.*;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.text.DecimalFormat;
@@ -88,7 +77,7 @@ public class TTSEngine {
     }
 
     public static AppBookmark fastTTSBookmakr(DocumentController dc) {
-        return fastTTSBookmakr(dc.getActivity(), dc.getCurrentBook().getPath(), dc.getCurentPageFirst1(), dc.getPageCount());
+        return fastTTSBookmakr(dc.getActivity(), dc.getCurrentBook().getPath(), dc.getCurrentPageFirst1(), dc.getPageCount());
 
     }
 
@@ -298,7 +287,7 @@ public class TTSEngine {
             dirFolder.mkdirs();
         }
         if (!dirFolder.exists()) {
-            info.onResultRecive(controller.getActivity().getString(R.string.file_not_found) + " " + dirFolder.getPath());
+            info.onResultReceive(controller.getActivity().getString(R.string.file_not_found) + " " + dirFolder.getPath());
             return;
         }
 
@@ -322,12 +311,12 @@ public class TTSEngine {
 
         if (page >= to || !TempHolder.isRecordTTS) {
             LOG.d("speakToFile finish", page, controller.getPageCount());
-            info.onResultRecive((controller.getActivity().getString(R.string.success)));
+            info.onResultReceive((controller.getActivity().getString(R.string.success)));
             TempHolder.isRecordTTS = false;
             return;
         }
 
-        info.onResultRecive((page + 1) + " / " + to);
+        info.onResultReceive((page + 1) + " / " + to);
 
         DecimalFormat df = new DecimalFormat("0000");
         String pageName = "page-" + df.format(page + 1);

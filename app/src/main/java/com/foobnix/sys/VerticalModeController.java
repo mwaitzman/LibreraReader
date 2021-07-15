@@ -15,7 +15,6 @@ import android.view.View;
 import android.view.View.OnKeyListener;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import com.foobnix.android.utils.Dips;
 import com.foobnix.android.utils.LOG;
 import com.foobnix.android.utils.ResultResponse;
@@ -32,7 +31,6 @@ import com.foobnix.pdf.info.view.MyProgressDialog;
 import com.foobnix.pdf.info.widget.PrefDialogs;
 import com.foobnix.pdf.info.wrapper.DocumentController;
 import com.foobnix.pdf.search.activity.msg.MessagePageXY;
-
 import org.ebookdroid.common.settings.CoreSettings;
 import org.ebookdroid.common.settings.SettingsManager;
 import org.ebookdroid.core.Page;
@@ -45,18 +43,8 @@ import org.ebookdroid.droids.mupdf.codec.TextWord;
 import org.ebookdroid.ui.viewer.ViewerActivityController;
 import org.greenrobot.eventbus.EventBus;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.*;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 public class VerticalModeController extends DocumentController {
@@ -134,8 +122,8 @@ public class VerticalModeController extends DocumentController {
     }
 
     @Override
-    public int getCurentPageFirst1() {
-        return getCurentPage();
+    public int getCurrentPageFirst1() {
+        return getCurrentPage();
     }
 
     @Override
@@ -175,13 +163,13 @@ public class VerticalModeController extends DocumentController {
     }
 
     @Override
-    public void onSrollLeft() {
+    public void onScrollLeft() {
         // ctr.getDocumentController().getView().startPageScroll(5, 0);
         ctr.getDocumentController().getView().scrollBy(Dips.DP_3, 0);
     }
 
     @Override
-    public void onSrollRight() {
+    public void onScrollRight() {
         // ctr.getDocumentController().getView().startPageScroll(-5, 0);
         ctr.getDocumentController().getView().scrollBy(-1 * Dips.DP_3, 0);
     }
@@ -293,7 +281,7 @@ public class VerticalModeController extends DocumentController {
         ctr.getDecodeService().deleteAnnotation(pageHanderl, page - 1, index, new ResultResponse<List<Annotation>>() {
 
             @Override
-            public boolean onResultRecive(List<Annotation> arg0) {
+            public boolean onResultReceive(List<Annotation> arg0) {
                 ctr.getDocumentModel().getPageObject(page - 1).annotations = arg0;
                 ctr.getDocumentController().toggleRenderingEffects();
                 return false;
@@ -370,7 +358,7 @@ public class VerticalModeController extends DocumentController {
         ctr.getDecodeService().addAnnotation(result, color, width, alpha, new ResultResponse<Pair<Integer, List<Annotation>>>() {
 
             @Override
-            public boolean onResultRecive(Pair<Integer, List<Annotation>> p) {
+            public boolean onResultReceive(Pair<Integer, List<Annotation>> p) {
                 ctr.getDocumentModel().getPageObject(p.first).annotations = p.second;
                 ctr.getDocumentController().toggleRenderingEffects();
                 return false;
@@ -394,7 +382,7 @@ public class VerticalModeController extends DocumentController {
 
     @Override
     public synchronized String getPageHtml() {
-        String pageHTML = ctr.getDecodeService().getPageHTML(getCurentPageFirst1() - 1);
+        String pageHTML = ctr.getDecodeService().getPageHTML(getCurrentPageFirst1() - 1);
         pageHTML = TxtUtils.replaceHTMLforTTS(pageHTML);
         pageHTML = pageHTML.replace(TxtUtils.TTS_PAUSE, TxtUtils.TTS_PAUSE_VIEW);
         return pageHTML;
@@ -435,7 +423,7 @@ public class VerticalModeController extends DocumentController {
             ctr.getDecodeService().underlineText(i, array, color, type, new ResultResponse<List<Annotation>>() {
 
                 @Override
-                public boolean onResultRecive(List<Annotation> arg0) {
+                public boolean onResultReceive(List<Annotation> arg0) {
                     page.annotations = arg0;
                     page.selectedText = new ArrayList<TextWord>();
                     ctr.getDocumentController().toggleRenderingEffects();
@@ -675,7 +663,7 @@ public class VerticalModeController extends DocumentController {
     }
 
     @Override
-    public void onCloseActivityAdnShowInterstial() {
+    public void onCloseActivityAdcShowInterstitial() {
         handler.removeCallbacksAndMessages(null);
         if (ctr == null || ctr.getDecodeService() == null) {
             return;
@@ -733,7 +721,7 @@ public class VerticalModeController extends DocumentController {
                     PrefDialogs.selectFileDialog(activity, Arrays.asList(".pdf"), getCurrentBook(), new ResultResponse<String>() {
 
                         @Override
-                        public boolean onResultRecive(String result) {
+                        public boolean onResultReceive(String result) {
 
                             path.setLength(0);
                             path.append(result);
@@ -792,7 +780,7 @@ public class VerticalModeController extends DocumentController {
     }
 
     @Override
-    public int getCurentPage() {
+    public int getCurrentPage() {
         try {
             return ctr.getDocumentModel().getCurrentViewPageIndex() + 1;
         } catch (Exception e) {
@@ -820,7 +808,7 @@ public class VerticalModeController extends DocumentController {
         final EditText number = new EditText(getActivity());
 
         number.setInputType(InputType.TYPE_CLASS_NUMBER);
-        number.setText(String.valueOf(getCurentPage()));
+        number.setText(String.valueOf(getCurrentPage()));
 
         builder.setView(number);
         builder.setTitle(R.string.go_to_page_dialog);
@@ -871,16 +859,16 @@ public class VerticalModeController extends DocumentController {
     @Override
     public synchronized void getOutline(final ResultResponse<List<OutlineLinkWrapper>> resultWrapper, boolean forseRealod) {
         if (outline != null) {
-            resultWrapper.onResultRecive(outline);
+            resultWrapper.onResultReceive(outline);
             return;
         }
         ctr.getDocumentModel().decodeService.getOutline(new ResultResponse<List<OutlineLink>>() {
 
             @Override
-            public boolean onResultRecive(List<OutlineLink> outlineLinks) {
+            public boolean onResultReceive(List<OutlineLink> outlineLinks) {
                 outline = new ArrayList<OutlineLinkWrapper>();
                 if (outlineLinks == null) {
-                    return resultWrapper.onResultRecive(null);
+                    return resultWrapper.onResultReceive(null);
                 }
 
                 for (OutlineLink ol : outlineLinks) {
@@ -903,7 +891,7 @@ public class VerticalModeController extends DocumentController {
                         LOG.e(e);
                     }
                 }
-                resultWrapper.onResultRecive(outline);
+                resultWrapper.onResultReceive(outline);
                 return true;
             }
         });

@@ -16,38 +16,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
-import android.widget.AdapterView;
+import android.widget.*;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.TableLayout;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import androidx.fragment.app.FragmentActivity;
-
-import com.foobnix.android.utils.Dips;
-import com.foobnix.android.utils.IO;
-import com.foobnix.android.utils.JsonDB;
-import com.foobnix.android.utils.Keyboards;
-import com.foobnix.android.utils.LOG;
-import com.foobnix.android.utils.ResultResponse;
-import com.foobnix.android.utils.ResultResponse2;
-import com.foobnix.android.utils.TxtUtils;
-import com.foobnix.android.utils.UI;
-import com.foobnix.model.AppData;
-import com.foobnix.model.AppProfile;
-import com.foobnix.model.AppState;
-import com.foobnix.model.MyPath;
-import com.foobnix.model.SimpleMeta;
-import com.foobnix.pdf.info.ExportConverter;
-import com.foobnix.pdf.info.ExportSettingsManager;
-import com.foobnix.pdf.info.ExtFilter;
-import com.foobnix.pdf.info.ExtUtils;
-import com.foobnix.pdf.info.R;
-import com.foobnix.pdf.info.TintUtil;
+import com.foobnix.android.utils.*;
+import com.foobnix.model.*;
+import com.foobnix.pdf.info.*;
 import com.foobnix.pdf.info.model.BookCSS;
 import com.foobnix.pdf.info.presentation.BrowserAdapter;
 import com.foobnix.pdf.info.presentation.PathAdapter;
@@ -58,19 +32,13 @@ import com.foobnix.pdf.search.view.AsyncProgressTask;
 import com.foobnix.sys.TempHolder;
 import com.foobnix.ui2.BooksService;
 import com.foobnix.ui2.MainTabs2;
-
 import net.lingala.zip4j.exception.ZipException;
-
 import org.greenrobot.eventbus.EventBus;
 import org.librera.JSONArray;
 import org.librera.LinkedJSONObject;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class PrefDialogs {
 
@@ -153,7 +121,7 @@ public class PrefDialogs {
         recentAdapter.setOnDeleClick(new ResultResponse<Uri>() {
 
             @Override
-            public boolean onResultRecive(Uri result) {
+            public boolean onResultReceive(Uri result) {
                 String path = result.getPath();
                 LOG.d("TEST", "Remove " + path);
                 BookCSS.get().searchPathsJson = JsonDB.remove(BookCSS.get().searchPathsJson, path);
@@ -526,7 +494,7 @@ public class PrefDialogs {
                 } else {
                     toFile = new File(lastPaht, pathText.getText().toString());
                 }
-                onResult.onResultRecive(toFile);
+                onResult.onResultReceive(toFile);
             }
         });
 
@@ -625,7 +593,7 @@ public class PrefDialogs {
                 }
                 File toFile = new File(adapter.getCurrentDirectory(), name);
 
-                onChoose.onResultRecive(toFile.getAbsolutePath());
+                onChoose.onResultReceive(toFile.getAbsolutePath());
                 dialog.dismiss();
 
             }

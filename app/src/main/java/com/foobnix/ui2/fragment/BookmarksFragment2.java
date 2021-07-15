@@ -14,11 +14,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
-
 import androidx.core.util.Pair;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.foobnix.android.utils.Keyboards;
 import com.foobnix.android.utils.LOG;
 import com.foobnix.android.utils.ResultResponse;
@@ -91,7 +89,7 @@ public class BookmarksFragment2 extends UIFragment<AppBookmark> {
         bookmarksAdapter.setOnItemLongClickListener(new ResultResponse<AppBookmark>() {
 
             @Override
-            public boolean onResultRecive(AppBookmark result) {
+            public boolean onResultReceive(AppBookmark result) {
                 FileInformationDialog.showFileInfoDialog(getActivity(), new File(result.getPath()), null);
                 return true;
             }
@@ -299,7 +297,7 @@ public class BookmarksFragment2 extends UIFragment<AppBookmark> {
     ResultResponse<AppBookmark> onTitleClickListener = new ResultResponse<AppBookmark>() {
 
         @Override
-        public boolean onResultRecive(AppBookmark result) {
+        public boolean onResultReceive(AppBookmark result) {
             // bookmarksSearchContainer.setVisibility(View.VISIBLE);
             bookmarksEditSearch.setText(BOOK_PREFIX + " " + result.getPath());
             populate();
@@ -310,7 +308,7 @@ public class BookmarksFragment2 extends UIFragment<AppBookmark> {
     ResultResponse<AppBookmark> onItemClickListener = new ResultResponse<AppBookmark>() {
 
         @Override
-        public boolean onResultRecive(AppBookmark result) {
+        public boolean onResultReceive(AppBookmark result) {
             String text = bookmarksEditSearch.getText().toString().toLowerCase(Locale.US).trim();
             if (TxtUtils.isNotEmpty(text) || AppState.get().bookmarksMode == AppState.BOOKMARK_MODE_BY_DATE) {
                 if (ExtUtils.doifFileExists(getContext(), result.getPath())) {
@@ -329,7 +327,7 @@ public class BookmarksFragment2 extends UIFragment<AppBookmark> {
     ResultResponse<AppBookmark> onDeleteResponse = new ResultResponse<AppBookmark>() {
 
         @Override
-        public boolean onResultRecive(AppBookmark result) {
+        public boolean onResultReceive(AppBookmark result) {
             if (bookmarksAdapter.withPageNumber) {
                 BookmarksData.get().remove(result);
                 populate();

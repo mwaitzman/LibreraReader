@@ -6,12 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Matrix;
 import android.graphics.PointF;
-
-import com.foobnix.android.utils.Dips;
-import com.foobnix.android.utils.Intents;
-import com.foobnix.android.utils.LOG;
-import com.foobnix.android.utils.Safe;
-import com.foobnix.android.utils.TxtUtils;
+import com.foobnix.android.utils.*;
 import com.foobnix.dao2.FileMeta;
 import com.foobnix.model.AppBook;
 import com.foobnix.model.AppSP;
@@ -23,18 +18,13 @@ import com.foobnix.pdf.info.model.AnnotationType;
 import com.foobnix.pdf.info.model.BookCSS;
 import com.foobnix.pdf.info.model.OutlineLinkWrapper;
 import com.foobnix.pdf.info.wrapper.DocumentController;
-import com.foobnix.pdf.search.activity.msg.InvalidateMessage;
-import com.foobnix.pdf.search.activity.msg.MessageAutoFit;
-import com.foobnix.pdf.search.activity.msg.MessageCenterHorizontally;
-import com.foobnix.pdf.search.activity.msg.MessagePageXY;
-import com.foobnix.pdf.search.activity.msg.MovePageAction;
+import com.foobnix.pdf.search.activity.msg.*;
 import com.foobnix.sys.ImageExtractor;
 import com.foobnix.sys.TempHolder;
 import com.foobnix.tts.TTSEngine;
 import com.foobnix.tts.TTSNotification;
 import com.foobnix.ui2.AppDB;
 import com.foobnix.ui2.FileMetaCore;
-
 import org.ebookdroid.common.settings.SettingsManager;
 import org.ebookdroid.core.PageSearcher;
 import org.ebookdroid.core.codec.CodecDocument;
@@ -206,7 +196,7 @@ public abstract class HorizontalModeController extends DocumentController {
 
     @Override
     public float getOffsetY() {
-        return getCurentPageFirst1();
+        return getCurrentPageFirst1();
     }
 
     @Override
@@ -246,7 +236,7 @@ public abstract class HorizontalModeController extends DocumentController {
     }
 
     @Override
-    public int getCurentPageFirst1() {
+    public int getCurrentPageFirst1() {
         return currentPage + 1;
     }
 
@@ -276,7 +266,7 @@ public abstract class HorizontalModeController extends DocumentController {
     }
 
     @Override
-    public void onSrollLeft() {
+    public void onScrollLeft() {
         throw new RuntimeException("Not Implemented");
     }
 
@@ -316,7 +306,7 @@ public abstract class HorizontalModeController extends DocumentController {
     @Override
     public String getPageHtml() {
         try {
-            CodecPage codecPage = codeDocument.getPage(getCurentPageFirst1() - 1);
+            CodecPage codecPage = codeDocument.getPage(getCurrentPageFirst1() - 1);
             if (!codecPage.isRecycled()) {
                 String pageHTML = codecPage.getPageHTML();
                 pageHTML = TxtUtils.replaceHTMLforTTS(pageHTML);
@@ -342,7 +332,7 @@ public abstract class HorizontalModeController extends DocumentController {
     }
 
     @Override
-    public void onSrollRight() {
+    public void onScrollRight() {
         throw new RuntimeException("Not Implemented");
 
     }
@@ -377,12 +367,12 @@ public abstract class HorizontalModeController extends DocumentController {
 
     @Override
     public void onZoomInc() {
-        EventBus.getDefault().post(new MovePageAction(MovePageAction.ZOOM_PLUS, getCurentPage()));
+        EventBus.getDefault().post(new MovePageAction(MovePageAction.ZOOM_PLUS, this.getCurrentPage()));
     }
 
     @Override
     public void onZoomDec() {
-        EventBus.getDefault().post(new MovePageAction(MovePageAction.ZOOM_MINUS, getCurentPage()));
+        EventBus.getDefault().post(new MovePageAction(MovePageAction.ZOOM_MINUS, this.getCurrentPage()));
     }
 
     @Override
@@ -446,9 +436,9 @@ public abstract class HorizontalModeController extends DocumentController {
                 }
 
                 //saveCurrentPage();
-                LOG.d("_PAGE", "SAVE", getCurentPage());
+                LOG.d("_PAGE", "SAVE", HorizontalModeController.this.getCurrentPage());
                 final Intent i = new Intent();
-                i.putExtra("page", getCurentPage());
+                i.putExtra("page", HorizontalModeController.this.getCurrentPage());
                 activity.setResult(Activity.RESULT_OK, i);
                 activity.finish();
 
@@ -461,7 +451,7 @@ public abstract class HorizontalModeController extends DocumentController {
     }
 
     @Override
-    public void onCloseActivityAdnShowInterstial() {
+    public void onCloseActivityAdcShowInterstitial() {
         showInterstialAndClose();
 
     }
@@ -483,7 +473,7 @@ public abstract class HorizontalModeController extends DocumentController {
     }
 
     @Override
-    public int getCurentPage() {
+    public int getCurrentPage() {
         LOG.d("_PAGE", "getCurentPage", currentPage);
         return currentPage;
     }
@@ -563,7 +553,7 @@ public abstract class HorizontalModeController extends DocumentController {
 
                                 @Override
                                 public void run() {
-                                    outlineResonse.onResultRecive(outline);
+                                    outlineResonse.onResultReceive(outline);
                                 }
                             });
 
@@ -577,7 +567,7 @@ public abstract class HorizontalModeController extends DocumentController {
                 ;
             }.start();
         } else {
-            outlineResonse.onResultRecive(outline);
+            outlineResonse.onResultReceive(outline);
         }
 
     }
@@ -627,7 +617,7 @@ public abstract class HorizontalModeController extends DocumentController {
                             LOG.d("Find on page_", pageNumber, text, word);
                             List<TextWord> selectedWords = PageImageState.get().getSelectedWords(pageNumber);
                             if (selectedWords == null || selectedWords.size() <= 0) {
-                                result.onResultRecive(pageNumber);
+                                result.onResultReceive(pageNumber);
                                 LOG.d("Find on page", pageNumber, text);
                             }
                             if (selectedWords == null || !selectedWords.contains(word)) {
@@ -637,17 +627,17 @@ public abstract class HorizontalModeController extends DocumentController {
                     });
 
                     for (int i = 0; i < getPageCount(); i++) {
-                        if (!TempHolder.isSeaching) {
-                            result.onResultRecive(Integer.MAX_VALUE);
+                        if (!TempHolder.isSearching) {
+                            result.onResultReceive(Integer.MAX_VALUE);
                             return null;
                         }
 
                         if (isClosed) {
-                            TempHolder.isSeaching = false;
+                            TempHolder.isSearching = false;
                             return null;
                         }
                         if (i > 1) {
-                            result.onResultRecive(i * -1);
+                            result.onResultReceive(i * -1);
                         }
 
                         TextWord[][] pageText = getPageText(i);
@@ -674,7 +664,7 @@ public abstract class HorizontalModeController extends DocumentController {
                                     if (index == text.length()) {
                                         index = 0;
                                         if (prev != i) {
-                                            result.onResultRecive(i);
+                                            result.onResultReceive(i);
                                             prev = i;
                                         }
                                         for (TextWord t : find) {
@@ -685,7 +675,7 @@ public abstract class HorizontalModeController extends DocumentController {
                                 } else if (word.w.toLowerCase(Locale.US).contains(textLowCase)) {
                                     LOG.d("Contains 1", word.w);
                                     if (prev != i) {
-                                        result.onResultRecive(i);
+                                        result.onResultReceive(i);
                                         prev = i;
                                     }
                                     PageImageState.get().addWord(i, word);
@@ -702,11 +692,11 @@ public abstract class HorizontalModeController extends DocumentController {
                                     firstWord = null;
                                     firstPart = "";
                                     if (prev != firstWordIndex) {
-                                        result.onResultRecive(firstWordIndex);
+                                        result.onResultReceive(firstWordIndex);
                                         prev = firstWordIndex;
                                     }
                                     if (prev != i) {
-                                        result.onResultRecive(i);
+                                        result.onResultReceive(i);
                                         prev = i;
                                     }
 
@@ -719,11 +709,11 @@ public abstract class HorizontalModeController extends DocumentController {
                         }
 
                     }
-                    result.onResultRecive(-1);
+                    result.onResultReceive(-1);
                 } catch (Exception e) {
-                    result.onResultRecive(-1);
+                    result.onResultReceive(-1);
                 }
-                TempHolder.isSeaching = false;
+                TempHolder.isSearching = false;
                 return null;
             }
 
@@ -762,13 +752,13 @@ public abstract class HorizontalModeController extends DocumentController {
     @Override
     public void alignDocument() {
         PageImageState.get().isAutoFit = true;
-        EventBus.getDefault().post(new MessageAutoFit(getCurentPage()));
+        EventBus.getDefault().post(new MessageAutoFit(this.getCurrentPage()));
     }
 
     @Override
     public void centerHorizontal() {
         PageImageState.get().isAutoFit = true;
-        EventBus.getDefault().post(new MessageCenterHorizontally(getCurentPage()));
+        EventBus.getDefault().post(new MessageCenterHorizontally(this.getCurrentPage()));
     }
 
 }
